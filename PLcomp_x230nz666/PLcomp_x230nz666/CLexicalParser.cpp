@@ -1,0 +1,383 @@
+#include "stdafx.h"
+#include "CLexicalParser.h"
+
+CLexicalParser::CLexicalParser(std::wistream *wsIn)
+{
+	m_msSym[L'+'] = plus_op;
+	m_msSym[L'-'] = minus_op;
+	m_msSym[L'*'] = times_op;
+	m_msSym[L'/'] = slash_op;
+	m_msSym[L'%'] = mod_op;
+	m_msSym[L'='] = eql_op;
+	m_msSym[L'<'] = lss_op;
+	m_msSym[L'>'] = gtr_op;
+	m_msSym[L'('] = lparen_op;
+	m_msSym[L')'] = rparen_op;
+	m_msSym[L','] = comma_op;
+	m_msSym[L';'] = semicolon_op;
+	m_msSym[L':'] = colon_op;
+	m_msSym[L'.'] = period_op;
+
+	m_curCh = L' ';
+
+	//add all the keywords
+	insertKeyWords(L"and", and_op);
+	insertKeyWords(L"as", as_sym);
+	insertKeyWords(L"boolean", bool_datatype);
+	insertKeyWords(L"break", break_sym);
+	insertKeyWords(L"call", call_sym);
+	insertKeyWords(L"case", case_sym);
+	insertKeyWords(L"const", const_sym);
+	insertKeyWords(L"continue", continue_sym);
+	insertKeyWords(L"decimal", dec_datatype);
+	insertKeyWords(L"else", else_sym);
+	insertKeyWords(L"false", false_val);
+	insertKeyWords(L"for", for_sym);
+	insertKeyWords(L"func", func_sym);
+	insertKeyWords(L"if", if_sym);
+	insertKeyWords(L"in", in_sym);
+	insertKeyWords(L"integer", int_datatype);
+	insertKeyWords(L"not", not_sym);
+	insertKeyWords(L"odd", odd_sym);
+	insertKeyWords(L"or", or_op);
+	insertKeyWords(L"print", print_sym);
+	insertKeyWords(L"read", read_sym);
+	insertKeyWords(L"ref", ref_sym);
+	insertKeyWords(L"repeat", repeat_sym);
+	insertKeyWords(L"return", return_sym);
+	insertKeyWords(L"switch", switch_sym);
+	insertKeyWords(L"true", true_val);
+	insertKeyWords(L"unless", unless_sym);
+	insertKeyWords(L"until", until_sym);
+	insertKeyWords(L"var", var_sym);
+	insertKeyWords(L"while", while_sym);
+	insertKeyWords(L"xor", xor_op);
+
+	m_isInput = wsIn;
+}
+
+bool CLexicalParser::Next()
+{
+	//执行前先初始化一下当前的内容
+	resetvalues();
+	try
+	{
+		while (m_curCh == L' ' ||
+			m_curCh == L'\n' ||
+			m_curCh == L'\r')
+			getnextc();
+	}
+	catch (EofException &e)
+	{
+		//什么都没有，因为是空的
+		return false;
+	}
+
+	//开头是字母的单词，就一定不是纯粹的数字了。
+	if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z')
+	{
+		try
+		{
+			do
+			{
+				m_wstrCurSymbol.push_back(m_curCh);
+				getnextc();
+			} while (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z' && m_isInput);
+		}
+		catch (EofException &e) {}
+		//TODO: Other error?
+
+		if (m_setReserved.count(m_wstrCurSymbol) > 0)
+		{
+			m_isInput->putback(m_curCh);
+			m_curSymbolType = m_mwSym[m_wstrCurSymbol];
+			return true;
+		}
+		else
+		{
+			//因为标识符允许有下划线等，因此到下一个空格之前，
+			//还需要继续进行连接。
+
+			try
+			{
+				while (m_curCh != L' ' &&
+					m_curCh != L'\n' &&
+					m_curCh != L'\r')
+				{
+					m_wstrCurSymbol.push_back(m_curCh);
+					getnextc();
+				}
+			}
+			catch (EofException &e) {}
+			//TODO: Other error?
+
+			m_isInput->putback(m_curCh);
+			m_curSymbolType = ident_type;
+			return true;
+		}
+	}
+	//处理数字的部分
+	else if ((m_curCh >= L'0' && m_curCh <= L'9') || m_curCh == L'.')
+	{
+		bool isInteger = true,
+			intOverflow = false;
+		__int64 intvalue = 0, newintvalue = 0;
+		double decvalue = 0.0;
+		if (m_curCh != L'.')
+		{
+			if (m_curCh == L'0')
+			{
+				m_wstrCurSymbol.push_back(m_curCh);
+				try
+				{
+					getnextc();
+					if (m_curCh >= L'0' && m_curCh <= L'9')
+					{
+						//TODO: 报错，不允许整数开头有额外的前导0.
+						return false;
+					}
+					else if (m_curCh == L'.' || towlower(m_curCh) == L'e') //遇到小数点, 或是 E ，转移到浮点数	
+					{
+						if (towlower(m_curCh) == L'e')
+							m_isInput->putback(m_curCh);
+						else
+							m_wstrCurSymbol.push_back(m_curCh);
+						isInteger = false;
+					}
+					else if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z') //直接连着字母，报错
+					{
+						//TODO: Error
+						return false;
+					}
+					m_isInput->putback(m_curCh);
+				}
+				catch (EofException &e) {}
+				//TODO: Other error handler?
+
+				m_curSymbolType = int_datatype;
+				m_curSymbolInt = intvalue;
+				return true;
+			}
+			else
+			{
+				do //遇到数字符号则不断循环
+				{
+					m_wstrCurSymbol.push_back(m_curCh);
+					intvalue = newintvalue;
+					newintvalue *= 10;
+					newintvalue += __int64(m_curCh - L'0');
+					if (newintvalue < intvalue) //发现数字越界，那么就转移到浮点
+					{
+						decvalue = double(intvalue) * 10.0 + double(m_curCh - L'0');
+						isInteger = false;
+						intOverflow = true;
+						// 如果 int64 存不下，那么多出来的位数也不用计算了
+						break;
+					}
+					getnextc();
+				} while (m_curCh >= L'0' && m_curCh <= L'9');
+				if (isInteger)
+				{
+					intvalue = newintvalue;
+					if (m_curCh == L'.' || towlower(m_curCh) == L'e') //遇到小数点 -> 小数
+					{
+						if (towlower(m_curCh) == L'e')
+							m_isInput->putback(m_curCh);
+						else
+							m_wstrCurSymbol.push_back(m_curCh);
+						decvalue = double(intvalue);
+						isInteger = false;
+					}
+					else if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z') //直接连着字母，报错
+					{
+						//TODO: Error
+						return false;
+					}
+					else //遇到别的符号，putback
+					{
+						m_isInput->putback(m_curCh);
+						m_curSymbolType = int_datatype;
+						m_curSymbolInt = intvalue;
+						return true;
+					}
+				}
+				else
+				{
+					//因为溢出，所以到下一个.之前，所有的数字都要处理
+
+					try
+					{
+						getnextc();
+						while (m_curCh >= L'0' && m_curCh <= L'9')
+						{
+							m_wstrCurSymbol.push_back(m_curCh);
+							decvalue *= 10;
+							decvalue += double(m_curCh - L'0');
+							getnextc();
+						}
+					}
+					catch (EofException &e) {}
+					//TODO: Other error handler?
+				}
+			}
+		}
+		else { //数字直接以 . 开头，意思就是 0.开头的小数
+			isInteger = false;
+			m_wstrCurSymbol.push_back(m_curCh);
+			bool eof = false;
+			try {
+				getnextc();
+			}
+			catch (EofException &e) {
+				eof = true;
+			}
+			if (eof || m_curCh < L'0' || m_curCh > L'9')
+			{
+				// 直接一个 . 是不允许的，报错
+				// TODO: Error
+				return false;
+			}
+		}
+
+		if (!isInteger)
+		{
+			double digit = 0.1;
+			try
+			{
+				getnextc();
+				while (m_curCh >= L'0' && m_curCh <= L'9')
+				{
+					m_wstrCurSymbol.push_back(m_curCh);
+					if (!intOverflow)
+					{
+						decvalue += digit * double(m_curCh - L'0');
+						digit /= 10;
+					}
+					getnextc();
+				}
+			}
+			catch (EofException &e) {}
+
+			if (towlower(m_curCh) == L'e')
+			{
+				int sign = 1;
+				int exp_i = 0;
+				bool eof = false;
+				m_wstrCurSymbol.push_back(m_curCh);
+				try {
+					getnextc();
+				}
+				catch (EofException &e) { eof = true; }
+
+				if (eof || (m_curCh != L'+' && m_curCh != L'-' &&
+					(m_curCh < L'0' || m_curCh > L'9')))
+				{
+					//TODO: Error
+					return false;
+				}
+				else if (m_curCh == L'+')
+				{
+					m_wstrCurSymbol.push_back(m_curCh);
+				}
+				else if (m_curCh == L'-')
+				{
+					m_wstrCurSymbol.push_back(m_curCh);
+					sign = -1;
+				}
+				else
+					m_isInput->putback(m_curCh);
+
+				getnextc();
+				while (m_curCh >= L'0' && m_curCh <= L'9')
+				{
+					m_wstrCurSymbol.push_back(m_curCh);
+					exp_i *= 10;
+					exp_i += int(m_curCh - L'0');
+					if (exp_i > 1000) //位数太多，超过1000，直接报错
+					{
+						//TODO: Error
+						return false;
+					}
+					try
+					{
+						getnextc();
+					}
+					catch (EofException &e) { break; }
+				}
+				decvalue *= pow(10.0, double(exp_i * sign));
+
+				//输入结束，数字后面不能直接跟着字母
+				if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z')
+				{
+					//TODO: Error
+					return false;
+				}
+
+			}
+			else if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z')
+			{
+				//输入结束，数字后面不能直接跟着字母
+				//TODO: Error
+				return false;
+			}
+
+			m_isInput->putback(m_curCh);
+			m_curSymbolType = dec_datatype;
+			m_curSymbolDec = decvalue;
+			return true;
+		}
+	}
+	else
+	{
+		//都不是，那就是符号了
+	}
+}
+
+const CLexicalParser::SymbolType CLexicalParser::GetSymbolType() const
+{
+	return m_curSymbolType;
+}
+
+const __int64 CLexicalParser::GetInteger() const
+{
+	return m_curSymbolInt;
+}
+
+const double CLexicalParser::GetDecimal() const
+{
+	return m_curSymbolDec;
+}
+
+const wchar_t * CLexicalParser::GetSymbol() const
+{
+	return m_wstrCurSymbol.c_str();
+}
+
+void CLexicalParser::insertKeyWords(const std::wstring &word, SymbolType symb)
+{
+	m_setReserved.insert(word);
+	m_mwSym[word] = symb;
+}
+
+void CLexicalParser::error()
+{
+	m_curSymbolType = nul;
+}
+
+void CLexicalParser::resetvalues()
+{
+	m_curSymbolType = nul;
+	m_curSymbolInt = 0;
+	m_curSymbolDec = 0.0;
+	m_wstrCurSymbol.clear();
+}
+
+void CLexicalParser::getnextc()
+{
+	m_isInput->get(m_curCh);
+	if (m_isInput->eof())
+		throw EofException();
+	if (m_isInput->bad() || m_isInput->fail())
+		throw StreamFailedException();
+}
+

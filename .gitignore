@@ -1,3 +1,7 @@
+# macOS and Windows Folder Setting Files:
+Desktop.ini
+.DS_Store
+
 # Prerequisites
 *.d
 
@@ -5,7 +9,7 @@
 *.slo
 *.lo
 *.o
-*.obj
+*.obj*
 
 # Precompiled Headers
 *.gch
@@ -25,8 +29,22 @@
 *.la
 *.a
 *.lib
+*.idb
 
 # Executables
 *.exe
 *.out
 *.app
+
+# Compiler Output files
+*.log
+*.tlog
+
+# Debug Information / Helpers
+*.pdb
+
+# Visual Studio User Configurations
+.vs
+
+# Increment Link files
+*.ilk
