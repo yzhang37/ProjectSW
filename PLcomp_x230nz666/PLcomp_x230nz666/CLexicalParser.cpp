@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CLexicalParser.h"
+#pragma warning(disable:4101)
 
 CLexicalParser::CLexicalParser(std::wistream *wsIn)
 {
@@ -89,7 +90,7 @@ bool CLexicalParser::Next()
 
 		if (m_setReserved.count(m_wstrCurSymbol) > 0)
 		{
-			m_isInput->putback(m_curCh);
+			//m_isInput->putback(m_curCh);
 			m_curSymbolType = m_mwSym[m_wstrCurSymbol];
 			return true;
 		}
@@ -104,14 +105,18 @@ bool CLexicalParser::Next()
 					m_curCh != L'\n' &&
 					m_curCh != L'\r')
 				{
-					m_wstrCurSymbol.push_back(m_curCh);
-					getnextc();
+					if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z' ||
+						m_curCh == L'_') {
+						m_wstrCurSymbol.push_back(m_curCh);
+						getnextc();
+					}
+					else break;
 				}
 			}
 			catch (EofException &e) {}
 			//TODO: Other error?
 
-			m_isInput->putback(m_curCh);
+			//m_isInput->putback(m_curCh);
 			m_curSymbolType = ident_type;
 			return true;
 		}
@@ -149,12 +154,12 @@ bool CLexicalParser::Next()
 						//TODO: Error
 						return false;
 					}
-					m_isInput->putback(m_curCh);
+					//m_isInput->putback(m_curCh);
 				}
 				catch (EofException &e) {}
 				//TODO: Other error handler?
 
-				m_curSymbolType = int_datatype;
+				m_curSymbolType = int_val;
 				m_curSymbolInt = intvalue;
 				return true;
 			}
@@ -193,10 +198,10 @@ bool CLexicalParser::Next()
 						//TODO: Error
 						return false;
 					}
-					else //遇到别的符号，putback
+					else //遇到别的符号
 					{
-						m_isInput->putback(m_curCh);
-						m_curSymbolType = int_datatype;
+						//m_isInput->putback(m_curCh);
+						m_curSymbolType = int_val;
 						m_curSymbolInt = intvalue;
 						return true;
 					}
@@ -222,6 +227,8 @@ bool CLexicalParser::Next()
 			}
 		}
 		else { //数字直接以 . 开头，意思就是 0.开头的小数
+			//还有一种可能就是 ... 符号，这种情况要排除。
+
 			isInteger = false;
 			m_wstrCurSymbol.push_back(m_curCh);
 			bool eof = false;
@@ -230,6 +237,25 @@ bool CLexicalParser::Next()
 			}
 			catch (EofException &e) {
 				eof = true;
+			}
+			if (m_curCh == L'.') //两个.了
+			{
+				m_wstrCurSymbol.push_back(m_curCh);
+				eof = false;
+				try { getnextc(); }
+				catch (EofException &e) {
+					eof = true;
+				}
+				if (eof || m_curCh != L'.') //不允许单独 .. 
+				{
+					// TODO: Error
+					return false;
+				}
+				m_wstrCurSymbol.push_back(m_curCh);
+				m_curSymbolType = to_op;
+				try { getnextc(); }
+				catch (EofException &e) {}
+				return true;
 			}
 			if (eof || m_curCh < L'0' || m_curCh > L'9')
 			{
@@ -305,6 +331,11 @@ bool CLexicalParser::Next()
 					catch (EofException &e) { break; }
 				}
 				decvalue *= pow(10.0, double(exp_i * sign));
+				if (decvalue == HUGE_VAL || decvalue == NAN)
+				{
+					// 数字溢出了，无法操作
+					return false;
+				}
 
 				//输入结束，数字后面不能直接跟着字母
 				if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z')
@@ -321,16 +352,136 @@ bool CLexicalParser::Next()
 				return false;
 			}
 
-			m_isInput->putback(m_curCh);
-			m_curSymbolType = dec_datatype;
+			//m_isInput->putback(m_curCh);
+			m_curSymbolType = dec_val;
 			m_curSymbolDec = decvalue;
 			return true;
 		}
+		//TODO:
+		//异常错误 
+		return false;
 	}
-	else
+	// 都不是，那就是符号了
+
+	m_wstrCurSymbol.push_back(m_curCh);
+	switch (m_curCh)
 	{
-		//都不是，那就是符号了
+	case L';': //语句结束符号，后面可以直接跟任何字符
+		m_curSymbolType = semicolon_op;
+		break;
+	case L'=': //赋值或者等于符号，后面可以直接跟任何字符
+		m_curSymbolType = eql_op;
+		break;
+	case L',':
+		m_curSymbolType = comma_op;
+		break;
+	case L'(':
+		m_curSymbolType = lparen_op;
+		break;
+	case L')':
+		m_curSymbolType = rparen_op;
+		break;
+	case L'{':
+		m_curSymbolType = lbrace_op;
+		break;
+	case L'}':
+		m_curSymbolType = rbrace_op;
+		break;
+	case L'*':
+		m_curSymbolType = times_op;
+		break;
+	case L'/':
+		m_curSymbolType = slash_op;
+		break;
+	case L'%':
+		m_curSymbolType = mod_op;
+		break;
+	case L':':
+		m_curSymbolType = colon_op;
+		break;
+	case L'+':
+	case L'-':
+		try {
+			wchar_t wcBegin = m_curCh;
+			int iCnt = 1;
+
+			getnextc();
+			while (m_curCh == wcBegin)
+			{
+				iCnt++;
+				m_wstrCurSymbol.push_back(m_curCh);
+				getnextc();
+			}
+
+			if (iCnt >= 3)
+			{
+				// 不允许 +++..., ---... 这样无限循环下去
+				return false;
+			}
+			else if (iCnt == 2)
+			{
+				switch (wcBegin)
+				{
+				case L'+':
+					m_curSymbolType = dblplus_op;
+					break;
+				case L'-':
+					m_curSymbolType = dblminus_op;
+					break;
+				}
+				return true;
+			}
+			else
+				m_isInput->putback(m_curCh);
+		}
+		catch (EofException &e) {}
+		m_curSymbolType = plus_op;
+		break;
+	case '!':
+	case '<':
+	case '>':
+	{
+		wchar_t wcBegin = m_curCh;
+		try
+		{
+			getnextc();
+			bool isNeq = ((wcBegin == L'!' && m_curCh == L'=') ||
+				(wcBegin == L'<' && m_curCh == L'>')),
+				isLeq = (wcBegin == L'<' && m_curCh == L'='),
+				isGeq = (wcBegin == L'>' && m_curCh == L'=');
+
+			if (isNeq || isLeq || isGeq)
+			{
+				if (isNeq)
+					m_curSymbolType = neq_op;
+				else if (isLeq)
+					m_curSymbolType = leq_op;
+				else if (isGeq)
+					m_curSymbolType = geq_op;
+				m_wstrCurSymbol.push_back(m_curCh);
+				try { getnextc(); }
+				catch (EofException &e) {}
+				return true;
+			}
+		}
+		catch (EofException &e) {}
+		if (wcBegin == '!')
+		{
+			// TODO: Error;
+			return false;
+		}
+		else if (wcBegin == L'<')
+			m_curSymbolType = lss_op;
+		else if (wcBegin == L'>')
+			m_curSymbolType = gtr_op;
+		return true;
 	}
+	default:
+		return false;
+	}
+	try { getnextc(); }
+	catch (EofException &e) {}
+	return true;
 }
 
 const CLexicalParser::SymbolType CLexicalParser::GetSymbolType() const
