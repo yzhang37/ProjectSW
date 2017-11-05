@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "CLexicalParser.h"
 #pragma warning(disable:4101)
+#define isAlphabet(__wchar) (towlower(__wchar) >= L'a' && towlower(__wchar) <= L'z')
+#define isNumeric(__wchar) ((__wchar) >= L'0' && (__wchar) <= L'9')
+#define isWhiteless(__wchar) ((__wchar) == L' ' || (__wchar) == L'\n' || (__wchar) == L'\r')
 
 CLexicalParser::CLexicalParser(std::wistream *wsIn)
 {
@@ -63,9 +66,7 @@ bool CLexicalParser::Next()
 	resetvalues();
 	try
 	{
-		while (m_curCh == L' ' ||
-			m_curCh == L'\n' ||
-			m_curCh == L'\r')
+		while (isWhiteless(m_curCh))
 			getnextc();
 	}
 	catch (EofException &e)
@@ -75,7 +76,7 @@ bool CLexicalParser::Next()
 	}
 
 	//开头是字母的单词，就一定不是纯粹的数字了。
-	if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z')
+	if (isAlphabet(m_curCh))
 	{
 		try
 		{
@@ -83,7 +84,7 @@ bool CLexicalParser::Next()
 			{
 				m_wstrCurSymbol.push_back(m_curCh);
 				getnextc();
-			} while (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z' && m_isInput);
+			} while (isAlphabet(m_curCh) && m_isInput);
 		}
 		catch (EofException &e) {}
 		//TODO: Other error?
@@ -101,12 +102,9 @@ bool CLexicalParser::Next()
 
 			try
 			{
-				while (m_curCh != L' ' &&
-					m_curCh != L'\n' &&
-					m_curCh != L'\r')
+				while (!isWhiteless(m_curCh))
 				{
-					if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z' ||
-						m_curCh == L'_') {
+					if (isAlphabet(m_curCh) || m_curCh == L'_') {
 						m_wstrCurSymbol.push_back(m_curCh);
 						getnextc();
 					}
@@ -122,7 +120,7 @@ bool CLexicalParser::Next()
 		}
 	}
 	//处理数字的部分
-	else if ((m_curCh >= L'0' && m_curCh <= L'9') || m_curCh == L'.')
+	else if (isNumeric(m_curCh) || m_curCh == L'.')
 	{
 		bool isInteger = true,
 			intOverflow = false;
@@ -136,20 +134,38 @@ bool CLexicalParser::Next()
 				try
 				{
 					getnextc();
-					if (m_curCh >= L'0' && m_curCh <= L'9')
+					if (isNumeric(m_curCh))
 					{
 						//TODO: 报错，不允许整数开头有额外的前导0.
 						return false;
 					}
 					else if (m_curCh == L'.' || towlower(m_curCh) == L'e') //遇到小数点, 或是 E ，转移到浮点数	
 					{
+						// 遇到小数点，先看看有几个点。如果数量 >= 2，那么就不是本次要处理的任务。
+
+						if (m_curCh == L'.')
+							try
+						{
+							getnextc();
+							wchar_t tempC = m_curCh;
+							m_isInput->putback(tempC);
+							m_curCh = L'.';
+							if (tempC == L'.')
+							{
+								m_curSymbolType = int_val;
+								m_curSymbolInt = intvalue;
+								return true;
+							}
+						}
+						catch (EofException &e) {}
+
 						if (towlower(m_curCh) == L'e')
 							m_isInput->putback(m_curCh);
 						else
 							m_wstrCurSymbol.push_back(m_curCh);
 						isInteger = false;
 					}
-					else if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z') //直接连着字母，报错
+					else if (isAlphabet(m_curCh)) //直接连着字母，报错
 					{
 						//TODO: Error
 						return false;
@@ -158,10 +174,12 @@ bool CLexicalParser::Next()
 				}
 				catch (EofException &e) {}
 				//TODO: Other error handler?
-
-				m_curSymbolType = int_val;
-				m_curSymbolInt = intvalue;
-				return true;
+				if (isInteger)
+				{
+					m_curSymbolType = int_val;
+					m_curSymbolInt = intvalue;
+					return true;
+				}
 			}
 			else
 			{
@@ -180,12 +198,30 @@ bool CLexicalParser::Next()
 						break;
 					}
 					getnextc();
-				} while (m_curCh >= L'0' && m_curCh <= L'9');
+				} while (isNumeric(m_curCh));
 				if (isInteger)
 				{
 					intvalue = newintvalue;
 					if (m_curCh == L'.' || towlower(m_curCh) == L'e') //遇到小数点 -> 小数
 					{
+						// 遇到小数点，先看看有几个点。如果数量 >= 2，那么就不是本次要处理的任务。
+
+						if (m_curCh == L'.')
+							try
+						{
+							getnextc();
+							wchar_t tempC = m_curCh;
+							m_isInput->putback(tempC);
+							m_curCh = L'.';
+							if (tempC == L'.')
+							{
+								m_curSymbolType = int_val;
+								m_curSymbolInt = intvalue;
+								return true;
+							}
+						}
+						catch (EofException &e) {}
+
 						if (towlower(m_curCh) == L'e')
 							m_isInput->putback(m_curCh);
 						else
@@ -193,7 +229,7 @@ bool CLexicalParser::Next()
 						decvalue = double(intvalue);
 						isInteger = false;
 					}
-					else if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z') //直接连着字母，报错
+					else if (isAlphabet(m_curCh)) //直接连着字母，报错
 					{
 						//TODO: Error
 						return false;
@@ -213,7 +249,7 @@ bool CLexicalParser::Next()
 					try
 					{
 						getnextc();
-						while (m_curCh >= L'0' && m_curCh <= L'9')
+						while (isNumeric(m_curCh))
 						{
 							m_wstrCurSymbol.push_back(m_curCh);
 							decvalue *= 10;
@@ -257,11 +293,15 @@ bool CLexicalParser::Next()
 				catch (EofException &e) {}
 				return true;
 			}
-			if (eof || m_curCh < L'0' || m_curCh > L'9')
+			if (eof || !isNumeric(m_curCh))
 			{
 				// 直接一个 . 是不允许的，报错
 				// TODO: Error
 				return false;
+			}
+			else
+			{
+				m_isInput->putback(m_curCh);
 			}
 		}
 
@@ -271,7 +311,7 @@ bool CLexicalParser::Next()
 			try
 			{
 				getnextc();
-				while (m_curCh >= L'0' && m_curCh <= L'9')
+				while (isNumeric(m_curCh))
 				{
 					m_wstrCurSymbol.push_back(m_curCh);
 					if (!intOverflow)
@@ -296,7 +336,7 @@ bool CLexicalParser::Next()
 				catch (EofException &e) { eof = true; }
 
 				if (eof || (m_curCh != L'+' && m_curCh != L'-' &&
-					(m_curCh < L'0' || m_curCh > L'9')))
+					!isNumeric(m_curCh)))
 				{
 					//TODO: Error
 					return false;
@@ -314,7 +354,7 @@ bool CLexicalParser::Next()
 					m_isInput->putback(m_curCh);
 
 				getnextc();
-				while (m_curCh >= L'0' && m_curCh <= L'9')
+				while (isNumeric(m_curCh))
 				{
 					m_wstrCurSymbol.push_back(m_curCh);
 					exp_i *= 10;
@@ -338,14 +378,14 @@ bool CLexicalParser::Next()
 				}
 
 				//输入结束，数字后面不能直接跟着字母
-				if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z')
+				if (isAlphabet(m_curCh))
 				{
 					//TODO: Error
 					return false;
 				}
 
 			}
-			else if (towlower(m_curCh) >= L'a' && towlower(m_curCh) <= L'z')
+			else if (isAlphabet(m_curCh))
 			{
 				//输入结束，数字后面不能直接跟着字母
 				//TODO: Error
