@@ -27,18 +27,30 @@
     <ClInclude Include="Exception.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CSyntaxParser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CErrorDetails.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CLexicalParser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SW_x230nz666.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Exception.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CSyntaxParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CLexicalParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CErrorDetails.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

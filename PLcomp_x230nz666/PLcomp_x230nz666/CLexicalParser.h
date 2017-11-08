@@ -9,9 +9,8 @@ class CLexicalParser
 {
 public:
 	enum SymbolType {
-		nul, ident_type, number_type, funcident_type, voidfuncident_type,
+		nul, ident_type, int_val, dec_val,
 		int_datatype, dec_datatype, bool_datatype, true_val, false_val,
-		int_val, dec_val, 
 		plus_op, minus_op, times_op, slash_op, mod_op, eql_op, neq_op,
 		lss_op, leq_op, gtr_op, geq_op, lparen_op, rparen_op, lbrace_op,
 		rbrace_op, comma_op, semicolon_op, colon_op, period_op, and_op, 

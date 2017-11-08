@@ -148,12 +148,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CLexicalParser.h" />
+    <ClInclude Include="CSyntaxParser.h" />
+    <ClInclude Include="CErrorDetails.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CLexicalParser.cpp" />
+    <ClCompile Include="CSyntaxParser.cpp" />
+    <ClCompile Include="CErrorDetails.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="SW_x230nz666.cpp" />
     <ClCompile Include="stdafx.cpp">
