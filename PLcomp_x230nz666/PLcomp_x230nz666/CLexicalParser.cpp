@@ -49,6 +49,7 @@ CLexicalParser::CLexicalParser(std::wistream *wsIn)
 	insertKeyWords(L"ref", ref_sym);
 	insertKeyWords(L"repeat", repeat_sym);
 	insertKeyWords(L"return", return_sym);
+	insertKeyWords(L"step", step_sym);
 	insertKeyWords(L"switch", switch_sym);
 	insertKeyWords(L"true", true_val);
 	insertKeyWords(L"unless", unless_sym);

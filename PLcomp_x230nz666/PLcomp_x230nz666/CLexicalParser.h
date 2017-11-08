@@ -18,7 +18,7 @@ public:
 		if_sym, unless_sym, else_sym, while_sym, repeat_sym, until_sym,
 		break_sym, continue_sym, for_sym, in_sym, print_sym, read_sym,
 		return_sym, switch_sym, case_sym, not_sym, odd_sym, call_sym,
-		const_sym, ref_sym, var_sym, as_sym, func_sym
+		const_sym, ref_sym, var_sym, as_sym, func_sym, step_sym
 	};
 	struct SymbolInfo
 	{
