@@ -1,19 +1,20 @@
 ###X230 大青椒's
-##SW Language Compiler (v1.0) 
+
+## SW Language Compiler (v1.0) 
 
 Description here.
 
-##Compiler User's Document 
+## Compiler User's Document 
 
 
 
 
 
-##Compiler Framework
+## Compiler Framework
 
-###Lexical Parser
+### Lexical Parser
 
-####Summary
+#### Summary
 
 | Field                        | Information          |
 | ---------------------------- | -------------------- |
@@ -27,8 +28,7 @@ Description here.
 
 In SW language, an symbol can be keywords, variable names, or operators. Typically, when defining this language, it's not allowed to define a variable, a function with these reserved words. Here the definition of these words is given as the following:
 
-Statement
-###Syntax Parser
+### Syntax Parser
 
 Description here.
 
@@ -103,7 +103,7 @@ for_stat = "for" ident "in" (ident|number) "..." (ident|number) "{" statement_li
 call_stat = "call" ident "(" [ expression { "," expression }  ] ")".
 
 condition = expression ("=="|"!="|"<"|"<="|">"|">=") expression |
-            odd "(" expression ")".
+            "odd" "(" expression ")".
 
 expression = ["+"|"-"] term { ("+"|"-") term}.
 
@@ -117,19 +117,19 @@ Above, each the non-terminal symbols mean:
 | Non-terminal                | Description                              |
 | --------------------------- | ---------------------------------------- |
 | `program`                   | The whole program architectural.         |
-| `declaration_list`          | Represent all the declaration in the program, including global variables, constant values and functions. |
+| `declaration_list`          | Represents all the declaration in the program, including global variables, constant values and functions. |
 | `ident_type`                | In SW language, only two kind of data types are allowed: `Integer` (Int64) and `decimal` (double, in-memory storage using 8 bytes). |
-| `var_declaration_list`      | Represent a series of variable declarations. |
-| `var_declaration`           | Represent a single variable declaration statement. <br/>Variables can be declared simultaneously in just one statement. |
-| `var_ident_declaration`     | Represent one symbol declaration. e.g. a, a as integer, a = 10, etc. The initial value is optional. |
-| `const_declaration_list`    | Represent a series of constant declarations. |
-| `const_declaration`         | Represent a single constant declaration statement. <br/>Just like how variables are declared, multiple constants can also be declared in just one statement. |
-| `const_ident_declaration`   | Represent one constant declaration, e.g. a = 10, a as integer = 10, etc. Remarkably, unlike in the variable declaration, the initial value is an essential part in constant declaration. |
+| `var_declaration_list`      | Represents a series of variable declarations. |
+| `var_declaration`           | Represents a single variable declaration statement. <br/>Variables can be declared simultaneously in just one statement. |
+| `var_ident_declaration`     | Represents one symbol declaration. e.g. a, a as integer, a = 10, etc. The initial value is optional. |
+| `const_declaration_list`    | Represents a series of constant declarations. |
+| `const_declaration`         | Represents a single constant declaration statement. <br/>Just like how variables are declared, multiple constants can also be declared in just one statement. |
+| `const_ident_declaration`   | Represents one constant declaration, e.g. a = 10, a as integer = 10, etc. Remarkably, unlike in the variable declaration, the initial value is an essential part in constant declaration. |
 | `function_declaration_list` |                                          |
-| `param_ident_declaration`   | Represent a single parameter declaration in the function header. `Ref` keyword is optional, it makes the parameter a reference to the original variable. |
-| `function_body`             |                                          |
-| `statement_list`            |                                          |
-| `statement`                 | Represent all the statement in SW language. |
+| `param_ident_declaration`   | Represents a single parameter declaration in the function header. `Ref` keyword is optional, it makes the parameter a reference to the original variable. |
+| `function_body`             | Represents the whole structure of a function. A function includes a series of variable definition, which is followed by a number of statements. |
+| `statement_list`            | Represents a series of statements. Each statement should end with a semicolon `;` symbol. |
+| `statement`                 | Represents all the statement in SW language. |
 | `if_stat`                   |                                          |
 | `while_stat`                |                                          |
 | `repeat_stat`               |                                          |
@@ -143,8 +143,36 @@ Above, each the non-terminal symbols mean:
 | `term`                      |                                          |
 | `factor`                    |                                          |
 
+In order to make the compile using a LL(1), the FIRST characters and FOLLOW characters of each non-terminal symbols are giving in the following table.
 
-
+| Non-terminal                | First                                    | Follow                                   |
+| --------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `program`                   | `const` `var` `func` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` | #                                        |
+| `declaration_list`          | `const` `var` `func`                     | \# `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` |
+| `ident_type`                | `integer` `decimal`                      | `=` `;` `,` `)`                          |
+| `var_declaration_list`      | `var`                                    | \# `func` `const` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` |
+| `var_declaration`           | `var`                                    | `;`                                      |
+| `var_ident_declaration`     | `integer` `decimal`                      | `;` `,`                                  |
+| `const_declaration_list`    | `const`                                  | \# `func` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` |
+| `const_declaration`         | `const`                                  | `;`                                      |
+| `const_ident_declaration`   | `integer` `decimal`                      | `;` `,`                                  |
+| `function_declaration_list` | `func`                                   | \# `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` |
+| `param_ident_declaration`   | `ref` `integer` `decimal`                | `,` `)`                                  |
+| `function_body`             | `var`                                    | `}`                                      |
+| `statement_list`            | `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` | \# `}`                                   |
+| `statement`                 | `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` | `;`                                      |
+| `if_stat`                   | `if` `unless`                            | `;`                                      |
+| `while_stat`                | `while` `until`                          | `;`                                      |
+| `repeat_stat`               | `repeat`                                 | `;`                                      |
+| `read_stat`                 | `read`                                   | `;`                                      |
+| `print_stat`                | `print`                                  | `;`                                      |
+| `assign_stat`               | `IDENT`                                  | `;`                                      |
+| `for_stat`                  | `for`                                    | `;`                                      |
+| `call_stat`                 | `call`                                   | `;`                                      |
+| `condition`                 | `IDENT` `NUMBER` `(` `+` `-` `odd`       | `{` `;`                                  |
+| `expression`                | `IDENT` `NUMBER` `(` `+` `-`             | `;` `,` `)`                              |
+| `term`                      | `IDENT` `NUMBER` `(`                     | `+` `-` `;` `,` `)`                      |
+| `factor`                    | `IDENT` `NUMBER` `(`                     | `*` `/` `+` `-` `;` `,` `)`              |
 
 
 

@@ -1,77 +1,40 @@
 #pragma once
-#include "stdafx.h"
 #include "CLexicalParser.h"
+#include "CSyntaxParser.h"
 #include "IdentType.h"
 
-class CSimpleSyntax
-{
-public:
-	virtual const std::set<SymbolType> & GetFirst() const;
-	virtual const std::set<SymbolType> & GetFollow() const;
-protected:
-	std::set<SymbolType> m_setFirst;
-	std::set<SymbolType> m_setFollow;
-};
-
 // program = declaration_list statement_list.
-struct ProgramSymSyntax : CSimpleSyntax
-{
-	ProgramSymSyntax();
-};
+void ProgramSym(CLexicalParser &lParser);
 
 //declaration_list = const_declaration_list
 //                   var_declaration_list
 //                   function_declaration_list.
-struct DeclarationListSymSyntax : CSimpleSyntax
-{
-	DeclarationListSymSyntax();
-};
+void DeclarationListSym(CLexicalParser &lParser);
 
 //ident_type = "integer" | "decimal" .
-struct IdentTypeSymSyntax : CSimpleSyntax
-{
-	IdentTypeSymSyntax();
-};
+void IdentTypeSym(CLexicalParser &lParser);
 
 //var_declaration_list = { var_declaration ";" }.
-struct VarDeclarationListSymSyntax : CSimpleSyntax
-{
-	VarDeclarationListSymSyntax();
-};
+void VarDeclarationListSym(CLexicalParser &lParser);
 
 //var_declaration = "var" var_ident_declaration
 //                        {"," var_ident_declaration }.
-struct VarDeclarationSymSyntax : CSimpleSyntax
-{
-	VarDeclarationSymSyntax();
-};
+void VarDeclarationSym(CLexicalParser &lParser);
 
 //var_ident_declaration = ident ["=" expression | 
 //                               "as" ident_type |
 //                               "as" ident_type "=" expression ].
-struct VarIdentDeclarationSymSyntax : CSimpleSyntax
-{
-	VarIdentDeclarationSymSyntax();
-};
+void VarIdentDeclarationSym(CLexicalParser &lParser);
 
 //const_declaration_list = { const_declaration ";" }.
-struct ConstDeclarataionListSymSyntax : CSimpleSyntax
-{
-	ConstDeclarataionListSymSyntax();
-};
+void ConstDeclarationListSym(CLexicalParser &lParser);
 
 //const_declaration = "const" const_ident_declaration
 //                            {"," const_ident_declaration }.
-struct ConstDeclarationSymSyntax : CSimpleSyntax
-{
-	ConstDeclarationSymSyntax();
-};
+void ConstDeclarationSym(CLexicalParser &lParser);
 
 //const_ident_declaration = ident ["as" ident_type ] "=" expression .
-struct ConstIdentDeclarationSymSyntax : CSimpleSyntax
-{
-	ConstIdentDeclarationSymSyntax();
-};
+void ConstIdentDeclarationSym(CLexicalParser &lParser);
 
 // function_declaration_list = 
 //     { "func" ident "(" 
@@ -83,110 +46,58 @@ struct ConstIdentDeclarationSymSyntax : CSimpleSyntax
 //             function_body
 //         "}" 
 //     }.
-struct FunctionDeclarationListSymSyntax : CSimpleSyntax
-{
-	FunctionDeclarationListSymSyntax();
-};
+void FunctionDeclarationListSym(CLexicalParser &lParser);
 
 // param_ident_declaration = ["ref"] ident "as" ident_type .
-struct ParamIdentDeclarationSymSyntax : CSimpleSyntax
-{
-	ParamIdentDeclarationSymSyntax();
-};
+void ParamIdentDeclarationSym(CLexicalParser &lParser);
 
 // function_body = var_declaration_list statement_list.
-struct FunctionBodySymSyntax : CSimpleSyntax
-{
-	FunctionBodySymSyntax();
-};
+void FunctionBodySym(CLexicalParser &lParser);
 
 // statement_list = { statement ";"}.
-struct StatementListSymSyntax : CSimpleSyntax
-{
-	StatementListSymSyntax();
-};
+void StatementListSym(CLexicalParser &lParser);
 
 // statement = if_stat | while_stat | 
 //             repeat_stat | read_stat | 
 //             print_stat | assign_stat |
 //             for_stat | call_stat |
 //             "continue" | "break" .
-struct StatementSymSyntax : CSimpleSyntax
-{
-	StatementSymSyntax();
-};
+void StatementSym(CLexicalParser &lParser);
 
 // if_stat = ( "if" | "unless" ) condition "{" statement_list "}" 
 //           ["else" "{" statement_list "}"].
-struct IfStatSymSyntax : CSimpleSyntax
-{
-	IfStatSymSyntax();
-};
+void IfStatSym(CLexicalParser &lParser);
 
 // while_stat = ( "while" | "until" ) condition "{" statement_list "}".
-struct WhileStatSymSyntax : CSimpleSyntax
-{
-	WhileStatSymSyntax();
-};
+void WhileStatSym(CLexicalParser &lParser);
 
 // repeat_stat = "repeat" "{" statement_list "}"
 // ("while" | "until") condition.
-struct RepeatStatSymSyntax : CSimpleSyntax
-{
-	RepeatStatSymSyntax();
-};
+void RepeatStatSym(CLexicalParser &lParser);
 
 // read_stat = "read" "(" ident ")".
-struct ReadStatSymSyntax : CSimpleSyntax
-{
-	ReadStatSymSyntax();
-};
+void ReadStatSym(CLexicalParser &lParser);
 
 // print_stat = "print" "(" ident ")".
-struct PrintStatSymSyntax : CSimpleSyntax
-{
-	PrintStatSymSyntax();
-};
+void PrintStatSym(CLexicalParser &lParser);
 
 // assign_stat = ident ( "=" expression | "++" | "--" ).
-struct AssignStatSymSyntax : CSimpleSyntax
-{
-	AssignStatSymSyntax();
-};
+void AssignStatSym(CLexicalParser &lParser);
 
 // for_stat = "for" ident "in" (ident|number) "..." (ident|number) "{" statement_list "}".
-struct ForStatSymSyntax : CSimpleSyntax
-{
-	ForStatSymSyntax();
-};
+void ForStatSym(CLexicalParser &lParser);
 
 // call_stat = "call" ident "(" [ expression { "," expression }  ] ")".
-struct CallStatSymSyntax : CSimpleSyntax
-{
-	CallStatSymSyntax();
-};
+void CallStatSym(CLexicalParser &lParser);
 
 // condition = expression ("=="|"!="|"<"|"<="|">"|">=") expression | "odd" "(" expression ")".
-struct ConditionSymSyntax : CSimpleSyntax
-{
-	ConditionSymSyntax();
-};
+void ConditionSym(CLexicalParser &lParser);
 
 // expression = ["+"|"-"] term { ("+"|"-") term}.
-struct ExpressionSymSyntax : CSimpleSyntax
-{
-	ExpressionSymSyntax();
-};
+void ExpressionSym(CLexicalParser &lParser);
 
 // term = factor { ("*"|"/") factor}.
-struct TermSymSyntax : CSimpleSyntax
-{
-	TermSymSyntax();
-};
+void TermSym(CLexicalParser &lParser);
 
 //factor = ident | number | "(" expression ")".
-struct FactorSymSyntax : CSimpleSyntax
-{
-	FactorSymSyntax();
-};
-
+void FactorSym(CLexicalParser &lParser);

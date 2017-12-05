@@ -48,3 +48,9 @@ Desktop.ini
 
 # Increment Link files
 *.ilk
+
+# Safe Development Files
+*.sdf
+
+PLcomp_x230nz666/ipch
+

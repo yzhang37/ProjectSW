@@ -33,6 +33,12 @@
     <ClInclude Include="CErrorDetails.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="IdentType.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sw_symHeader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -21,43 +21,31 @@ CLexicalParser::CLexicalParser(std::wistream *wsIn)
 	m_msSym[L';'] = semicolon_op;
 	m_msSym[L':'] = colon_op;
 	m_msSym[L'.'] = period_op;
-
 	m_curCh = L' ';
-
 	//add all the keywords
-	insertKeyWords(L"and", and_op);
 	insertKeyWords(L"as", as_sym);
-	insertKeyWords(L"boolean", bool_datatype);
 	insertKeyWords(L"break", break_sym);
 	insertKeyWords(L"call", call_sym);
-	insertKeyWords(L"case", case_sym);
 	insertKeyWords(L"const", const_sym);
 	insertKeyWords(L"continue", continue_sym);
 	insertKeyWords(L"decimal", dec_datatype);
 	insertKeyWords(L"else", else_sym);
-	insertKeyWords(L"false", false_val);
 	insertKeyWords(L"for", for_sym);
 	insertKeyWords(L"func", func_sym);
 	insertKeyWords(L"if", if_sym);
 	insertKeyWords(L"in", in_sym);
 	insertKeyWords(L"integer", int_datatype);
-	insertKeyWords(L"not", not_sym);
 	insertKeyWords(L"odd", odd_sym);
-	insertKeyWords(L"or", or_op);
 	insertKeyWords(L"print", print_sym);
 	insertKeyWords(L"read", read_sym);
 	insertKeyWords(L"ref", ref_sym);
 	insertKeyWords(L"repeat", repeat_sym);
 	insertKeyWords(L"return", return_sym);
 	insertKeyWords(L"step", step_sym);
-	insertKeyWords(L"switch", switch_sym);
-	insertKeyWords(L"true", true_val);
 	insertKeyWords(L"unless", unless_sym);
 	insertKeyWords(L"until", until_sym);
 	insertKeyWords(L"var", var_sym);
 	insertKeyWords(L"while", while_sym);
-	insertKeyWords(L"xor", xor_op);
-
 	m_isInput = wsIn;
 }
 
@@ -476,6 +464,7 @@ bool CLexicalParser::Next()
 				m_isInput->putback(m_curCh);
 		}
 		catch (EofException &e) {}
+		// TODO: why here is a plus_op, it may cause expectedly inspect '-' as plus_op!!!
 		m_curSymbolType = plus_op;
 		break;
 	case '!':
@@ -525,7 +514,7 @@ bool CLexicalParser::Next()
 	return true;
 }
 
-const CLexicalParser::SymbolType CLexicalParser::GetSymbolType() const
+const SymbolType CLexicalParser::GetSymbolType() const
 {
 	return m_curSymbolType;
 }
