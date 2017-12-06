@@ -147,20 +147,20 @@ In order to make the compile using a LL(1), the FIRST characters and FOLLOW char
 
 | Non-terminal                | First                                    | Follow                                   |
 | --------------------------- | ---------------------------------------- | ---------------------------------------- |
-| `program`                   | `const` `var` `func` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` | #                                        |
-| `declaration_list`          | `const` `var` `func`                     | \# `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` |
+| `program`                   | `const` `var` `func` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` | #                                        |
+| `declaration_list`          | `const` `var` `func`                     | \# `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` |
 | `ident_type`                | `integer` `decimal`                      | `=` `;` `,` `)`                          |
-| `var_declaration_list`      | `var`                                    | \# `func` `const` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` |
+| `var_declaration_list`      | `var`                                    | \# `func` `const` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` |
 | `var_declaration`           | `var`                                    | `;`                                      |
 | `var_ident_declaration`     | `integer` `decimal`                      | `;` `,`                                  |
-| `const_declaration_list`    | `const`                                  | \# `func` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` |
+| `const_declaration_list`    | `const`                                  | \# `func` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` |
 | `const_declaration`         | `const`                                  | `;`                                      |
 | `const_ident_declaration`   | `integer` `decimal`                      | `;` `,`                                  |
-| `function_declaration_list` | `func`                                   | \# `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` |
+| `function_declaration_list` | `func`                                   | \# `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` |
 | `param_ident_declaration`   | `ref` `integer` `decimal`                | `,` `)`                                  |
 | `function_body`             | `var`                                    | `}`                                      |
-| `statement_list`            | `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` | \# `}`                                   |
-| `statement`                 | `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` | `;`                                      |
+| `statement_list`            | `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` | \# `}`                                   |
+| `statement`                 | `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` | `;`                                      |
 | `if_stat`                   | `if` `unless`                            | `;`                                      |
 | `while_stat`                | `while` `until`                          | `;`                                      |
 | `repeat_stat`               | `repeat`                                 | `;`                                      |

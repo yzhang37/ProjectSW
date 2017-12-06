@@ -38,7 +38,7 @@ private:
 	// add keywords and map
 	
 	inline void insertKeyWords(const std::wstring &, SymbolType);
-	void error();
+	void _makeError();
 	inline void resetvalues();
 	inline void getnextc();
 };

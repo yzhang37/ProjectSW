@@ -430,8 +430,9 @@ bool CLexicalParser::Next()
 		break;
 	case L'+':
 	case L'-':
+	{
+		wchar_t wcBegin = m_curCh;
 		try {
-			wchar_t wcBegin = m_curCh;
 			int iCnt = 1;
 
 			getnextc();
@@ -464,9 +465,12 @@ bool CLexicalParser::Next()
 				m_isInput->putback(m_curCh);
 		}
 		catch (EofException &e) {}
-		// TODO: why here is a plus_op, it may cause expectedly inspect '-' as plus_op!!!
-		m_curSymbolType = plus_op;
+		if (wcBegin == L'+')
+			m_curSymbolType = plus_op;
+		else
+			m_curSymbolType = minus_op;
 		break;
+	}
 	case '!':
 	case '<':
 	case '>':
@@ -540,7 +544,7 @@ void CLexicalParser::insertKeyWords(const std::wstring &word, SymbolType symb)
 	m_mwSym[word] = symb;
 }
 
-void CLexicalParser::error()
+void CLexicalParser::_makeError()
 {
 	m_curSymbolType = nul;
 }
