@@ -51,8 +51,7 @@ var_declaration = "var" var_ident_declaration
                         {"," var_ident_declaration }.
 
 var_ident_declaration = ident ["=" expression | 
-                               "as" ident_type |
-                               "as" ident_type "=" expression ].
+                               "as" ident_type ["=" expression] ].
                                
 const_declaration_list = { const_declaration ";" }.
 
@@ -176,9 +175,31 @@ In order to make the compile using a LL(1), the FIRST characters and FOLLOW char
 
 
 
-符号表结构
+### The structure of Symbol Tables
+
+| Symbol Identifier | Attribute | Data Type | Level |
+| ----------------- | --------- | --------- | ----- |
+| `pi`              | constant  | Decimal   | 0     |
+| `y`               | variable  | Decimal   | 0     |
+| `x`               | variable  | Decimal   | 0     |
+| `idx`             | variable  | Integer   | 0     |
+| `sin`             | function  | Unknown   | 0     |
+| `y`               | Reference | Decimal   | 1     |
+| `x`               |           |           | 1     |
+
+```Swift
+const pi = 3.1415926;
+var y as decimal, x as decimal,
+    idx as integer;
+
+func sin(ref y as decimal, x as decimal)
+{
+	y = 0;
+}
 
 
+
+```
 
 类型: 变量，常量，引用，无返回值函数，返回值函数
 

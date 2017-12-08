@@ -13,61 +13,82 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\Enums &amp; Types">
+      <UniqueIdentifier>{91530ba0-9f66-41d3-bd5c-dc8ad4a7115e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Messages">
+      <UniqueIdentifier>{36611029-6f92-47ce-b89f-3d5fb8803fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Resources">
+      <UniqueIdentifier>{3b0815c9-fa33-44aa-ad06-147380af2fa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Modules">
+      <UniqueIdentifier>{6727e6fa-8c24-47c3-8b99-301c443812e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="..\Sources\DataType.h">
+      <Filter>头文件\Enums &amp; Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\IdentType.h">
+      <Filter>头文件\Enums &amp; Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\error_messages.h">
+      <Filter>头文件\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\CLexicalParser.h">
+      <Filter>头文件\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\CSyntaxParser.h">
+      <Filter>头文件\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Exception.h">
+      <Filter>头文件\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\CErrorDetails.h">
+      <Filter>头文件\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\sw_symHeader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="..\Sources\SymbolTable.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CLexicalParser.h">
+    <ClInclude Include="..\Sources\stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Exception.h">
+    <ClInclude Include="..\Sources\targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CSyntaxParser.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CErrorDetails.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="IdentType.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sw_symHeader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="error_messages.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\Resources\sw_resource.h">
+      <Filter>头文件\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="..\Sources\CErrorDetails.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SW_x230nz666.cpp">
+    <ClCompile Include="..\Sources\CLexicalParser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Exception.cpp">
+    <ClCompile Include="..\Sources\CSyntaxParser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CSyntaxParser.cpp">
+    <ClCompile Include="..\Sources\Exception.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CLexicalParser.cpp">
+    <ClCompile Include="..\Sources\SW_x230nz666.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CErrorDetails.cpp">
+    <ClCompile Include="..\Sources\SymbolTable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="sw_resource.rc">
+    <ResourceCompile Include="..\Resources\sw_resource.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>

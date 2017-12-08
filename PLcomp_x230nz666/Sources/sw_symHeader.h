@@ -2,6 +2,7 @@
 #include "CLexicalParser.h"
 #include "CSyntaxParser.h"
 #include "IdentType.h"
+#include "DataType.h"
 
 // program = declaration_list statement_list.
 void ProgramSym(CLexicalParser &lParser);
@@ -12,7 +13,7 @@ void ProgramSym(CLexicalParser &lParser);
 void DeclarationListSym(CLexicalParser &lParser);
 
 //ident_type = "integer" | "decimal" .
-void IdentTypeSym(CLexicalParser &lParser);
+bool IdentTypeSym(CLexicalParser &lParser, SymbolDataType & refDataType);
 
 //var_declaration_list = { var_declaration ";" }.
 void VarDeclarationListSym(CLexicalParser &lParser);
