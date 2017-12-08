@@ -12,9 +12,6 @@ void ProgramSym(CLexicalParser &lParser);
 //                   function_declaration_list.
 void DeclarationListSym(CLexicalParser &lParser);
 
-//ident_type = "integer" | "decimal" .
-bool IdentTypeSym(CLexicalParser &lParser, SymbolDataType & refDataType);
-
 //var_declaration_list = { var_declaration ";" }.
 void VarDeclarationListSym(CLexicalParser &lParser);
 

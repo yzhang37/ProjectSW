@@ -27,7 +27,7 @@ ProgramSymSyntax::ProgramSymSyntax()
 	m_setFirst.insert(call_sym);
 	m_setFirst.insert(continue_sym);
 	m_setFirst.insert(break_sym);
-	m_setFirst.insert(ident_type);
+	m_setFirst.insert(ident);
 	
 	m_setFollow.insert(eof);
 }
@@ -50,18 +50,7 @@ DeclarationListSymSyntax::DeclarationListSymSyntax()
 	m_setFollow.insert(call_sym);
 	m_setFollow.insert(continue_sym);
 	m_setFollow.insert(break_sym);
-	m_setFollow.insert(ident_type);
-}
-
-IdentTypeSymSyntax::IdentTypeSymSyntax()
-{
-	m_setFirst.insert(int_datatype);
-	m_setFirst.insert(dec_datatype);
-
-	m_setFollow.insert(eql_op);
-	m_setFollow.insert(semicolon_op);
-	m_setFollow.insert(comma_op);
-	m_setFollow.insert(rparen_op);
+	m_setFollow.insert(ident);
 }
 
 VarDeclarationListSymSyntax::VarDeclarationListSymSyntax()
@@ -82,7 +71,7 @@ VarDeclarationListSymSyntax::VarDeclarationListSymSyntax()
 	m_setFollow.insert(call_sym);
 	m_setFollow.insert(continue_sym);
 	m_setFollow.insert(break_sym);
-	m_setFollow.insert(ident_type);
+	m_setFollow.insert(ident);
 }
 
 VarDeclarationSymSyntax::VarDeclarationSymSyntax()
@@ -94,8 +83,7 @@ VarDeclarationSymSyntax::VarDeclarationSymSyntax()
 
 VarIdentDeclarationSymSyntax::VarIdentDeclarationSymSyntax()
 {
-	m_setFirst.insert(int_datatype);
-	m_setFirst.insert(dec_datatype);
+	m_setFirst.insert(ident);
 
 	m_setFollow.insert(semicolon_op);
 	m_setFollow.insert(comma_op);
@@ -118,7 +106,7 @@ ConstDeclarataionListSymSyntax::ConstDeclarataionListSymSyntax()
 	m_setFollow.insert(call_sym);
 	m_setFollow.insert(continue_sym);
 	m_setFollow.insert(break_sym);
-	m_setFollow.insert(ident_type);
+	m_setFollow.insert(ident);
 }
 
 ConstDeclarationSymSyntax::ConstDeclarationSymSyntax()
@@ -130,8 +118,7 @@ ConstDeclarationSymSyntax::ConstDeclarationSymSyntax()
 
 ConstIdentDeclarationSymSyntax::ConstIdentDeclarationSymSyntax()
 {
-	m_setFirst.insert(int_datatype);
-	m_setFirst.insert(dec_datatype);
+	m_setFirst.insert(ident);
 
 	m_setFollow.insert(semicolon_op);
 	m_setFollow.insert(comma_op);
@@ -153,14 +140,13 @@ FunctionDeclarationListSymSyntax::FunctionDeclarationListSymSyntax()
 	m_setFollow.insert(call_sym);
 	m_setFollow.insert(continue_sym);
 	m_setFollow.insert(break_sym);
-	m_setFollow.insert(ident_type);
+	m_setFollow.insert(ident);
 }
 
 ParamIdentDeclarationSymSyntax::ParamIdentDeclarationSymSyntax()
 {
 	m_setFirst.insert(ref_sym);
-	m_setFirst.insert(int_datatype);
-	m_setFirst.insert(dec_datatype);
+	m_setFirst.insert(ident);
 
 	m_setFollow.insert(comma_op);
 	m_setFollow.insert(rparen_op);
@@ -186,7 +172,7 @@ StatementListSymSyntax::StatementListSymSyntax()
 	m_setFirst.insert(call_sym);
 	m_setFirst.insert(continue_sym);
 	m_setFirst.insert(break_sym);
-	m_setFirst.insert(ident_type);
+	m_setFirst.insert(ident);
 
 	m_setFollow.insert(eof);
 	m_setFollow.insert(semicolon_op);
@@ -205,7 +191,7 @@ StatementSymSyntax::StatementSymSyntax()
 	m_setFirst.insert(call_sym);
 	m_setFirst.insert(continue_sym);
 	m_setFirst.insert(break_sym);
-	m_setFirst.insert(ident_type);
+	m_setFirst.insert(ident);
 
 	m_setFollow.insert(semicolon_op);
 }
@@ -249,7 +235,7 @@ PrintStatSymSyntax::PrintStatSymSyntax()
 
 AssignStatSymSyntax::AssignStatSymSyntax()
 {
-	m_setFirst.insert(ident_type);
+	m_setFirst.insert(ident);
 
 	m_setFollow.insert(semicolon_op);
 }
@@ -270,9 +256,8 @@ CallStatSymSyntax::CallStatSymSyntax()
 
 ConditionSymSyntax::ConditionSymSyntax()
 {
-	m_setFirst.insert(ident_type);
-	m_setFirst.insert(int_val);
-	m_setFirst.insert(dec_val);
+	m_setFirst.insert(ident);
+	m_setFirst.insert(number);
 	m_setFirst.insert(lparen_op);
 	m_setFirst.insert(plus_op);
 	m_setFirst.insert(minus_op);
@@ -284,9 +269,8 @@ ConditionSymSyntax::ConditionSymSyntax()
 
 ExpressionSymSyntax::ExpressionSymSyntax()
 {
-	m_setFirst.insert(ident_type);
-	m_setFirst.insert(int_val);
-	m_setFirst.insert(dec_val);
+	m_setFirst.insert(ident);
+	m_setFirst.insert(number);
 	m_setFirst.insert(lparen_op);
 	m_setFirst.insert(plus_op);
 	m_setFirst.insert(minus_op);
@@ -298,9 +282,8 @@ ExpressionSymSyntax::ExpressionSymSyntax()
 
 TermSymSyntax::TermSymSyntax()
 {
-	m_setFirst.insert(ident_type);
-	m_setFirst.insert(int_val);
-	m_setFirst.insert(dec_val);
+	m_setFirst.insert(ident);
+	m_setFirst.insert(number);
 	m_setFirst.insert(lparen_op);
 
 	m_setFollow.insert(plus_op);
@@ -312,9 +295,8 @@ TermSymSyntax::TermSymSyntax()
 
 FactorSymSyntax::FactorSymSyntax()
 {
-	m_setFirst.insert(ident_type);
-	m_setFirst.insert(int_val);
-	m_setFirst.insert(dec_val);
+	m_setFirst.insert(ident);
+	m_setFirst.insert(number);
 	m_setFirst.insert(lparen_op);
 
 	m_setFollow.insert(times_op);

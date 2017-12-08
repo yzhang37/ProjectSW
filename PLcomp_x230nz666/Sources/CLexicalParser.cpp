@@ -23,18 +23,15 @@ CLexicalParser::CLexicalParser(std::wistream *wsIn)
 	m_msSym[L'.'] = period_op;
 	m_curCh = L' ';
 	//add all the keywords
-	insertKeyWords(L"as", as_sym);
 	insertKeyWords(L"break", break_sym);
 	insertKeyWords(L"call", call_sym);
 	insertKeyWords(L"const", const_sym);
 	insertKeyWords(L"continue", continue_sym);
-	insertKeyWords(L"decimal", dec_datatype);
 	insertKeyWords(L"else", else_sym);
 	insertKeyWords(L"for", for_sym);
 	insertKeyWords(L"func", func_sym);
 	insertKeyWords(L"if", if_sym);
 	insertKeyWords(L"in", in_sym);
-	insertKeyWords(L"integer", int_datatype);
 	insertKeyWords(L"odd", odd_sym);
 	insertKeyWords(L"print", print_sym);
 	insertKeyWords(L"read", read_sym);
@@ -104,7 +101,7 @@ bool CLexicalParser::Next()
 			//TODO: Other error?
 
 			//m_isInput->putback(m_curCh);
-			m_curSymbolType = ident_type;
+			m_curSymbolType = ident;
 			return true;
 		}
 	}

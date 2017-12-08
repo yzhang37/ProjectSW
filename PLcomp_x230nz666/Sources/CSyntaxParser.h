@@ -27,12 +27,6 @@ struct DeclarationListSymSyntax : CSimpleSyntax
 	DeclarationListSymSyntax();
 };
 
-//ident_type = "integer" | "decimal" .
-struct IdentTypeSymSyntax : CSimpleSyntax
-{
-	IdentTypeSymSyntax();
-};
-
 //var_declaration_list = { var_declaration ";" }.
 struct VarDeclarationListSymSyntax : CSimpleSyntax
 {

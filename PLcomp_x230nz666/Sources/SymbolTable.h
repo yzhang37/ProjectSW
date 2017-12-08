@@ -6,7 +6,6 @@ struct a
 {
 	bool m_bIsConst;
 	bool m_bIsRef;
-	SymbolDataType m_dateType;
 	int m_nLevel;
 	int m_nOffset;
 };
