@@ -31,6 +31,9 @@ Desktop.ini
 *.lib
 *.idb
 
+# Compiled Resources
+*.res
+
 # Executables
 *.exe
 *.out
@@ -51,6 +54,9 @@ Desktop.ini
 
 # Safe Development Files
 *.sdf
+
+# Automatically Precompiled Resources:
+*.aps
 
 PLcomp_x230nz666/ipch
 
