@@ -52,3 +52,15 @@ public:
     std::map<std::wstring, VirtualInstruction> str2ins;
     std::map<VirtualInstruction, std::wstring> ins2str;
 };
+
+struct CVirtualMachineInstruction
+{
+    CVirtualMachineInstruction() {}
+    CVirtualMachineInstruction(VirtualInstruction vi, __int64 a, __int64 b);
+    void set(VirtualInstruction vi, __int64 a, __int64 b);;
+    VirtualInstruction inst;
+    __int64 param_a;
+    __int64 param_b;
+};
+
+struct CVMInst_Return : CVirtualMachineInstruction { CVMInst_Return(); };

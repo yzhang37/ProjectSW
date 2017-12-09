@@ -1,4 +1,4 @@
-###X230 大青椒's
+### X230 大青椒's
 
 ## SW Language Compiler (v1.0) 
 
@@ -42,23 +42,20 @@ program = declaration_list statement_list.
 declaration_list = const_declaration_list
                    var_declaration_list
                    function_declaration_list.
-
-ident_type = "integer" | "decimal" .
-
+                   
 var_declaration_list = { var_declaration ";" }.
 
 var_declaration = "var" var_ident_declaration
                         {"," var_ident_declaration }.
 
-var_ident_declaration = ident ["=" expression | 
-                               "as" ident_type ["=" expression] ].
+var_ident_declaration = ident ["=" expression ].
                                
 const_declaration_list = { const_declaration ";" }.
 
 const_declaration = "const" const_ident_declaration
                             {"," const_ident_declaration }.
 
-const_ident_declaration = ident ["as" ident_type ] "=" expression .
+const_ident_declaration = ident "=" expression .
 
 function_declaration_list = 
     { "func" ident "(" 
@@ -71,7 +68,7 @@ function_declaration_list =
         "}" 
     }.
     
-param_ident_declaration = ["ref"] ident "as" ident_type .
+param_ident_declaration = ["ref"] ident.
 
 function_body = var_declaration_list statement_list.
 
@@ -117,13 +114,12 @@ Above, each the non-terminal symbols mean:
 | --------------------------- | ---------------------------------------- |
 | `program`                   | The whole program architectural.         |
 | `declaration_list`          | Represents all the declaration in the program, including global variables, constant values and functions. |
-| `ident_type`                | In SW language, only two kind of data types are allowed: `Integer` (Int64) and `decimal` (double, in-memory storage using 8 bytes). |
 | `var_declaration_list`      | Represents a series of variable declarations. |
 | `var_declaration`           | Represents a single variable declaration statement. <br/>Variables can be declared simultaneously in just one statement. |
-| `var_ident_declaration`     | Represents one symbol declaration. e.g. a, a as integer, a = 10, etc. The initial value is optional. |
+| `var_ident_declaration`     | Represents one symbol declaration. e.g. a, a = 10, etc. The initial value is optional. |
 | `const_declaration_list`    | Represents a series of constant declarations. |
 | `const_declaration`         | Represents a single constant declaration statement. <br/>Just like how variables are declared, multiple constants can also be declared in just one statement. |
-| `const_ident_declaration`   | Represents one constant declaration, e.g. a = 10, a as integer = 10, etc. Remarkably, unlike in the variable declaration, the initial value is an essential part in constant declaration. |
+| `const_ident_declaration`   | Represents one constant declaration, e.g. a = 10. Remarkably, unlike in the variable declaration, the initial value is an essential part in constant declaration. |
 | `function_declaration_list` |                                          |
 | `param_ident_declaration`   | Represents a single parameter declaration in the function header. `Ref` keyword is optional, it makes the parameter a reference to the original variable. |
 | `function_body`             | Represents the whole structure of a function. A function includes a series of variable definition, which is followed by a number of statements. |
@@ -148,15 +144,14 @@ In order to make the compile using a LL(1), the FIRST characters and FOLLOW char
 | --------------------------- | ---------------------------------------- | ---------------------------------------- |
 | `program`                   | `const` `var` `func` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` | #                                        |
 | `declaration_list`          | `const` `var` `func`                     | \# `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` |
-| `ident_type`                | `integer` `decimal`                      | `=` `;` `,` `)`                          |
 | `var_declaration_list`      | `var`                                    | \# `func` `const` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` |
 | `var_declaration`           | `var`                                    | `;`                                      |
-| `var_ident_declaration`     | `integer` `decimal`                      | `;` `,`                                  |
+| `var_ident_declaration`     | `IDENT`                                  | `;` `,`                                  |
 | `const_declaration_list`    | `const`                                  | \# `func` `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` |
 | `const_declaration`         | `const`                                  | `;`                                      |
-| `const_ident_declaration`   | `integer` `decimal`                      | `;` `,`                                  |
+| `const_ident_declaration`   | `IDENT`                                  | `;` `,`                                  |
 | `function_declaration_list` | `func`                                   | \# `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` |
-| `param_ident_declaration`   | `ref` `integer` `decimal`                | `,` `)`                                  |
+| `param_ident_declaration`   | `ref` `IDENT`                            | `,` `)`                                  |
 | `function_body`             | `var`                                    | `}`                                      |
 | `statement_list`            | `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` | \# `}`                                   |
 | `statement`                 | `if` `unless` `while` `until` `repeat` `read` `print` `for` `call` `continue` `break` `IDENT` | `;`                                      |
@@ -188,16 +183,13 @@ In order to make the compile using a LL(1), the FIRST characters and FOLLOW char
 | `x`               |           |           | 1     |
 
 ```Swift
-const pi = 3.1415926;
-var y as decimal, x as decimal,
-    idx as integer;
+const abc = 150;
+var y, x, idx;
 
-func sin(ref y as decimal, x as decimal)
+func sin(ref y, x)
 {
 	y = 0;
 }
-
-
 
 ```
 
@@ -208,4 +200,23 @@ func sin(ref y as decimal, x as decimal)
 |标识符|标识符类型|c|d|e|
 
 
+
+### Virtual Machines Instructions
+
+| Instruction | Code (integer) | Syntax | Description |
+| ----------- | -------------- | ------ | ----------- |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
+|             |                |        |             |
 

@@ -2,16 +2,6 @@
 #include "stdafx.h"
 #include "VM_instructions.h"
 
-struct CVirtualMachineInstruction
-{
-    CVirtualMachineInstruction() {}
-    CVirtualMachineInstruction(VirtualInstruction vi, __int64 a, __int64 b);
-    void set(VirtualInstruction vi, __int64 a, __int64 b);;
-    VirtualInstruction inst;
-    __int64 param_a;
-    __int64 param_b;
-};
-
 class CRuntimeStack
 {
 public:

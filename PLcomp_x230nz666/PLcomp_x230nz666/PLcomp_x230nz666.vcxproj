@@ -150,6 +150,7 @@
     <ClInclude Include="..\Resources\sw_resource.h" />
     <ClInclude Include="..\Sources\CErrorDetails.h" />
     <ClInclude Include="..\Sources\CLexicalParser.h" />
+    <ClInclude Include="..\Sources\CSWStructure.h" />
     <ClInclude Include="..\Sources\CSyntaxParser.h" />
     <ClInclude Include="..\Sources\DataType.h" />
     <ClInclude Include="..\Sources\error_messages.h" />
@@ -159,15 +160,18 @@
     <ClInclude Include="..\Sources\sw_symHeader.h" />
     <ClInclude Include="..\Sources\SymbolTable.h" />
     <ClInclude Include="..\Sources\targetver.h" />
+    <ClInclude Include="..\Sources\VM_instructions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\CErrorDetails.cpp" />
     <ClCompile Include="..\Sources\CLexicalParser.cpp" />
+    <ClCompile Include="..\Sources\CSWStructure.cpp" />
     <ClCompile Include="..\Sources\CSyntaxParser.cpp" />
     <ClCompile Include="..\Sources\Exception.cpp" />
     <ClCompile Include="..\Sources\stdafx.cpp" />
     <ClCompile Include="..\Sources\SW_x230nz666.cpp" />
     <ClCompile Include="..\Sources\SymbolTable.cpp" />
+    <ClCompile Include="..\Sources\VM_instructions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Resources\sw_resource.rc" />

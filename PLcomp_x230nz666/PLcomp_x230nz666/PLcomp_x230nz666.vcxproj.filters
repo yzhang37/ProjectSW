@@ -25,6 +25,12 @@
     <Filter Include="头文件\Modules">
       <UniqueIdentifier>{6727e6fa-8c24-47c3-8b99-301c443812e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Modules">
+      <UniqueIdentifier>{b294dde9-2b70-4c33-933c-d88c31eb3ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Enum &amp; Types">
+      <UniqueIdentifier>{7208060b-7761-4361-babf-9d9642ff16f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\DataType.h">
@@ -51,9 +57,6 @@
     <ClInclude Include="..\Sources\sw_symHeader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\SymbolTable.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -63,28 +66,43 @@
     <ClInclude Include="..\Resources\sw_resource.h">
       <Filter>头文件\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\SymbolTable.h">
+      <Filter>头文件\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\CSWStructure.h">
+      <Filter>头文件\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\VM_instructions.h">
+      <Filter>头文件\Enums &amp; Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Sources\CErrorDetails.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\CLexicalParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\CSyntaxParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\Exception.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\SW_x230nz666.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\SymbolTable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\stdafx.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Exception.cpp">
+      <Filter>源文件\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\CLexicalParser.cpp">
+      <Filter>源文件\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\CSyntaxParser.cpp">
+      <Filter>源文件\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\CErrorDetails.cpp">
+      <Filter>源文件\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\SymbolTable.cpp">
+      <Filter>源文件\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\CSWStructure.cpp">
+      <Filter>源文件\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\VM_instructions.cpp">
+      <Filter>源文件\Enum &amp; Types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

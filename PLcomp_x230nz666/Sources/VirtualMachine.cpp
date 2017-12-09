@@ -249,11 +249,3 @@ void CRuntimeStack::return_pop(size_t top_pos)
 {
     m_stackData.resize(top_pos);
 }
-
-CVirtualMachineInstruction::CVirtualMachineInstruction(VirtualInstruction vi, __int64 a, __int64 b)
-    :inst(vi), param_a(a), param_b(b) {}
-
-void CVirtualMachineInstruction::set(VirtualInstruction vi, __int64 a, __int64 b)
-{
-    inst = vi; param_a = a; param_b = b;
-}

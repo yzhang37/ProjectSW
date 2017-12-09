@@ -71,7 +71,7 @@ int wmain(int argc, wchar_t** argv)
         bRet = translator.GetInstruction(code_str, inst.inst);
         if (!bRet)
         {
-            printf("On Line %d,\n", iLine);
+            printf("On Line %zd,\n", iLine);
             wprintf(L"%ws\n\n", line.c_str());
             wprintf(L"invalid code \'%ws\'.\n", code_str.c_str());
             exit(IDS_ERROR_VM_INSTRUCTION);

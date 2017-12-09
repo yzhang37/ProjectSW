@@ -43,3 +43,18 @@ bool CInstructionTranslator::GetString(VirtualInstruction vinst, std::wstring &s
     else
         return false;
 }
+
+CVirtualMachineInstruction::CVirtualMachineInstruction(VirtualInstruction vi, __int64 a, __int64 b)
+    :inst(vi), param_a(a), param_b(b) {}
+
+void CVirtualMachineInstruction::set(VirtualInstruction vi, __int64 a, __int64 b)
+{
+    inst = vi; param_a = a; param_b = b;
+}
+
+CVMInst_Return::CVMInst_Return()
+{
+    inst = VI_OPERATION;
+    param_a = 0;
+    param_b = 0;
+}
