@@ -32,3 +32,23 @@ bool CSymbolTable::EnterSymbol(CSimpleIdentSymbol * pSymbol)
     m_tableData.push_back(pSymbol);
     return true;
 }
+
+CFunctionSymbol * CSymbolTable::GetLastFunction()
+{
+    for (size_t i = m_tableData.size(); i > 0; --i)
+    {
+        if (m_tableData[i - 1]->GetAttribute() == SA_FUNCTION)
+            return (CFunctionSymbol *)m_tableData[i - 1];
+    }
+    return nullptr;
+}
+
+void CFunctionSymbol::AppendParam(SymbolStatus status)
+{
+    m_paramList.push_back(status);
+}
+
+const std::vector<SymbolStatus>& CFunctionSymbol::GetParams()
+{
+    return m_paramList;
+}

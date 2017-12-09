@@ -7,10 +7,11 @@ class CSimpleIdentSymbol
 {
 public:
     CSimpleIdentSymbol() :m_Level(0) {}
+    ReadonlyPropertyHelper(Attribute, m_symbolAttribute, SymbolAttribute)
     PropertyHelper(Name, m_symbolName, std::wstring)
-    PropertyHelper(Level, m_Level, int)
+    PropertyHelper(Level, m_Level, size_t)
 protected:
-    int m_Level;
+    size_t m_Level;
     std::wstring m_symbolName;
     SymbolAttribute m_symbolAttribute;
 };
@@ -48,6 +49,8 @@ class CFunctionSymbol : public CIdentSymbol
 {
 public:
     CFunctionSymbol() { m_symbolAttribute = SA_FUNCTION; }
+    void AppendParam(SymbolStatus);
+    const std::vector<SymbolStatus> &GetParams();
 protected:
     std::vector<SymbolStatus> m_paramList;
 };
@@ -58,6 +61,7 @@ public:
     ~CSymbolTable();
     size_t GetTableSize();
     bool EnterSymbol(CSimpleIdentSymbol *);
+    CFunctionSymbol *GetLastFunction();
 protected:
     std::vector<CSimpleIdentSymbol *> m_tableData;
 };
