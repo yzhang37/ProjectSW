@@ -59,9 +59,11 @@ class CSymbolTable
 {
 public:
     ~CSymbolTable();
-    size_t GetTableSize();
     bool EnterSymbol(CSimpleIdentSymbol *);
+    CSimpleIdentSymbol *FindLatest(const std::wstring & str);
+    size_t GetTableSize();
     CFunctionSymbol *GetLastFunction();
+    void PruneTo(size_t level);
 protected:
     std::vector<CSimpleIdentSymbol *> m_tableData;
 };

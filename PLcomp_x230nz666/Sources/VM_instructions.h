@@ -64,3 +64,5 @@ struct CVirtualMachineInstruction
 };
 
 struct CVMInst_Return : CVirtualMachineInstruction { CVMInst_Return(); };
+struct CVMInst_Print : CVirtualMachineInstruction { CVMInst_Print(); };
+struct CVMInst_Read : CVirtualMachineInstruction { CVMInst_Read(); };

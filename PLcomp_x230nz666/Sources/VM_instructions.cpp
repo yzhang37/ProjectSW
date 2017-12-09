@@ -58,3 +58,17 @@ CVMInst_Return::CVMInst_Return()
     param_a = 0;
     param_b = 0;
 }
+
+CVMInst_Print::CVMInst_Print()
+{
+    inst = VI_OPERATION;
+    param_a = 14;
+    param_b = 0;
+}
+
+CVMInst_Read::CVMInst_Read()
+{
+    inst = VI_OPERATION;
+    param_a = 15;
+    param_b = 0;
+}

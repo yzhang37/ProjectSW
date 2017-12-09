@@ -33,6 +33,16 @@ bool CSymbolTable::EnterSymbol(CSimpleIdentSymbol * pSymbol)
     return true;
 }
 
+CSimpleIdentSymbol * CSymbolTable::FindLatest(const std::wstring & str)
+{
+    for (size_t i = m_tableData.size(); i > 0; --i)
+    {
+        if (m_tableData[i - 1]->GetName() == str)
+            return m_tableData[i - 1];
+    }
+    return nullptr;
+}
+
 CFunctionSymbol * CSymbolTable::GetLastFunction()
 {
     for (size_t i = m_tableData.size(); i > 0; --i)
@@ -41,6 +51,18 @@ CFunctionSymbol * CSymbolTable::GetLastFunction()
             return (CFunctionSymbol *)m_tableData[i - 1];
     }
     return nullptr;
+}
+
+void CSymbolTable::PruneTo(size_t level)
+{
+    for (size_t i = m_tableData.size(); i > 0; --i)
+    {
+        if (m_tableData[i - 1]->GetLevel() == level)
+        {
+            m_tableData.resize(i);
+            return;
+        }
+    }
 }
 
 void CFunctionSymbol::AppendParam(SymbolStatus status)
