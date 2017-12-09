@@ -19,11 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Sources\EncodeConvHelper.cpp" />
     <ClCompile Include="..\Sources\SWVM_Main.cpp" />
+    <ClCompile Include="..\Sources\VirtualMachine.cpp" />
+    <ClCompile Include="..\Sources\VM_instructions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\DataType.h" />
+    <ClInclude Include="..\Sources\EncodeConvHelper.h" />
+    <ClInclude Include="..\Sources\VirtualMachine.h" />
     <ClInclude Include="..\Sources\VM_instructions.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="vm_res.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\res\lacus_sw.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{748B2FD7-3F21-458B-AD8D-E99001A21368}</ProjectGuid>

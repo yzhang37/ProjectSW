@@ -1,7 +1,11 @@
 #pragma once
+#include "stdafx.h"
 
 enum VirtualInstruction
 {
+    // nop 0, 0
+    VI_NOP,
+
 	// liti <constant>, 0
 	VI_LIT_INTEGER,
 
@@ -37,4 +41,14 @@ enum VirtualInstruction
 
     // halt
     VI_HALT,
+};
+
+class CInstructionTranslator
+{
+public:
+    CInstructionTranslator();
+    bool GetInstruction(const std::wstring & str, VirtualInstruction &);
+    bool GetString(VirtualInstruction, std::wstring & str);
+    std::map<std::wstring, VirtualInstruction> str2ins;
+    std::map<VirtualInstruction, std::wstring> ins2str;
 };

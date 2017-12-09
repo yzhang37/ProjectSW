@@ -1,5 +1,11 @@
 #pragma once
+#define IDS_ERROR_VM_NOFILE                          100
+#define IDS_ERROR_VM_FILEERROR                       101
+#define IDS_ERROR_VM_INSTRUCTION                     102
+
 #define IDS_ERROR_LEXICAL_NODECIMAL                  800
+
+
 #define IDS_ERROR_SYNTAX_UNEXPECTED                  1000
 #define IDS_ERROR_SYNTAX_DECLARATION_MISSTYPE        1001
 #define IDS_ERROR_SYNTAX_DECLARATION_NOENDSEMICOLON  1002

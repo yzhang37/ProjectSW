@@ -16,10 +16,34 @@
     <Filter Include="Header Files\Enums &amp; Types">
       <UniqueIdentifier>{1f8db4c8-d3ab-497c-bb95-43062638f84e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Modules">
+      <UniqueIdentifier>{1dce09f0-41e7-4cef-b623-4d49ee0f032d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Modules">
+      <UniqueIdentifier>{81e4d1d7-c74f-4dc9-9a32-0247ce708f41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Helpers">
+      <UniqueIdentifier>{881b8e99-4958-439a-a598-00d2b8ba24dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helpers">
+      <UniqueIdentifier>{6e31f227-55da-4346-81cc-e2c0a008a838}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enum &amp; Types">
+      <UniqueIdentifier>{069a107f-0e38-43bb-b493-b03e0bb64903}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\SWVM_Main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\VirtualMachine.cpp">
+      <Filter>Source Files\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\EncodeConvHelper.cpp">
+      <Filter>Source Files\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\VM_instructions.cpp">
+      <Filter>Source Files\Enum &amp; Types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,5 +53,24 @@
     <ClInclude Include="..\Sources\VM_instructions.h">
       <Filter>Header Files\Enums &amp; Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\VirtualMachine.h">
+      <Filter>Header Files\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\EncodeConvHelper.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="vm_res.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\res\lacus_sw.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
