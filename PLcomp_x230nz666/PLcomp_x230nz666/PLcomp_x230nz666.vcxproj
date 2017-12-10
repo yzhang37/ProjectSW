@@ -155,6 +155,7 @@
     <ClInclude Include="..\Sources\CSWStructure.h" />
     <ClInclude Include="..\Sources\CSyntaxParser.h" />
     <ClInclude Include="..\Sources\DataType.h" />
+    <ClInclude Include="..\Sources\EncodeConvHelper.h" />
     <ClInclude Include="..\Sources\error_messages.h" />
     <ClInclude Include="..\Sources\Exception.h" />
     <ClInclude Include="..\Sources\IdentType.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="..\Sources\CLexicalParser.cpp" />
     <ClCompile Include="..\Sources\CSWStructure.cpp" />
     <ClCompile Include="..\Sources\CSyntaxParser.cpp" />
+    <ClCompile Include="..\Sources\EncodeConvHelper.cpp" />
     <ClCompile Include="..\Sources\Exception.cpp" />
     <ClCompile Include="..\Sources\stdafx.cpp" />
     <ClCompile Include="..\Sources\SW_x230nz666.cpp" />

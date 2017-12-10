@@ -31,6 +31,12 @@
     <Filter Include="源文件\Enum &amp; Types">
       <UniqueIdentifier>{7208060b-7761-4361-babf-9d9642ff16f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Helpers">
+      <UniqueIdentifier>{4d387276-7f12-4ba8-9c6b-de4553e4c3f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Helpers">
+      <UniqueIdentifier>{496ca039-203a-4fe6-b01f-3f11975fc11c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\DataType.h">
@@ -75,6 +81,9 @@
     <ClInclude Include="..\Sources\VM_instructions.h">
       <Filter>头文件\Enums &amp; Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\Sources\EncodeConvHelper.h">
+      <Filter>头文件\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\SW_x230nz666.cpp">
@@ -103,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="..\Sources\VM_instructions.cpp">
       <Filter>源文件\Enum &amp; Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\EncodeConvHelper.cpp">
+      <Filter>源文件\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

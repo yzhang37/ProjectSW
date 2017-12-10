@@ -11,10 +11,8 @@ private:
         size_t tBase;
         size_t cBase;
         size_t cSize;
+        std::vector<CVirtualMachineInstruction> m_codeStashed;
     };
-    // 1.记录当前的 level
-    // 2.当前的 bl
-    //
 
 public:
     CSWStructure();
@@ -40,5 +38,21 @@ public:
     void pop();
 protected:
     std::vector<StructData> m_structData;
-    std::vector<CVirtualMachineInstruction> m_codeStashed;
+};
+
+class CSWLoopStructure
+{
+private:
+    struct LoopStructData
+    {
+        std::vector<size_t>breakExitList;
+        std::vector<size_t>continueList;
+    };
+public:
+    void push();
+    bool addContinue(size_t line);
+    bool addBreak(size_t line);
+    void pop(size_t selfopLine, size_t exitLine, std::vector<CVirtualMachineInstruction> & codeList);
+protected:
+    std::vector<LoopStructData> m_structData;
 };
