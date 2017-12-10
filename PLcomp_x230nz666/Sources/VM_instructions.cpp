@@ -115,6 +115,20 @@ CVMInst_Module::CVMInst_Module()
     param_b = 0;
 }
 
+CVMInst_Odd::CVMInst_Odd()
+{
+    inst = VI_OPERATION;
+    param_a = 13;
+    param_b = 0;
+}
+
+CVMInst_Not::CVMInst_Not()
+{
+    inst = VI_OPERATION;
+    param_a = 16;
+    param_b = 0;
+}
+
 CVMInst_Load::CVMInst_Load(const CVariableSymbol & sym)
 {
     inst = VI_LOAD_INTEGER;

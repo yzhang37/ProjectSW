@@ -7,32 +7,32 @@ enum VirtualInstruction
     // nop 0, 0
     VI_NOP,
 
-	// liti <constant>, 0
-	VI_LIT_INTEGER,
+    // liti <constant>, 0
+    VI_LIT_INTEGER,
 
-	// lodi <level>, <offset>
-	VI_LOAD_INTEGER,
+    // lodi <level>, <offset>
+    VI_LOAD_INTEGER,
 
-	// lori <level = 1>, <offset>
-	VI_LOAD_INTEGER_REF,
+    // lori <level = 1>, <offset>
+    VI_LOAD_INTEGER_REF,
 
     // mkri
     VI_MAKE_REFERENCE,
 
-	// stoi <level>, <offset>
-	VI_STORE_INTEGER,
+    // stoi <level>, <offset>
+    VI_STORE_INTEGER,
 
-	// stri <level = 1>, <offset>
-	VI_STORE_INTEGER_REF,
+    // stri <level = 1>, <offset>
+    VI_STORE_INTEGER_REF,
 
-	// b
-	VI_BRANCH,
+    // b
+    VI_BRANCH,
 
-	// bc
-	VI_BRANCH_COND,
+    // bc
+    VI_BRANCH_COND,
 
-	// bl 0, addr;
-	VI_BRANCH_LINK,
+    // bl 0, addr;
+    VI_BRANCH_LINK,
 
     // int 0, count
     VI_INITIALIZE_VAR,
@@ -70,10 +70,12 @@ struct CVMInst_LoadRef : CVirtualMachineInstruction { CVMInst_LoadRef(const CVar
 struct CVMInst_StoreRef : CVirtualMachineInstruction { CVMInst_StoreRef(const CVariableSymbol & sym); };
 struct CVMInst_Return : CVirtualMachineInstruction { CVMInst_Return(); };
 struct CVMInst_MakeNegative : CVirtualMachineInstruction { CVMInst_MakeNegative(); };
-struct CVMInst_Plus :CVirtualMachineInstruction { CVMInst_Plus(); };
-struct CVMInst_Minus :CVirtualMachineInstruction { CVMInst_Minus(); };
-struct CVMInst_Times :CVirtualMachineInstruction { CVMInst_Times(); };
-struct CVMInst_Divide :CVirtualMachineInstruction { CVMInst_Divide(); };
-struct CVMInst_Module :CVirtualMachineInstruction { CVMInst_Module(); };
+struct CVMInst_Plus : CVirtualMachineInstruction { CVMInst_Plus(); };
+struct CVMInst_Minus : CVirtualMachineInstruction { CVMInst_Minus(); };
+struct CVMInst_Times : CVirtualMachineInstruction { CVMInst_Times(); };
+struct CVMInst_Divide : CVirtualMachineInstruction { CVMInst_Divide(); };
+struct CVMInst_Module : CVirtualMachineInstruction { CVMInst_Module(); };
 struct CVMInst_Print : CVirtualMachineInstruction { CVMInst_Print(); };
 struct CVMInst_Read : CVirtualMachineInstruction { CVMInst_Read(); };
+struct CVMInst_Odd : CVirtualMachineInstruction { CVMInst_Odd(); };
+struct CVMInst_Not : CVirtualMachineInstruction { CVMInst_Not(); };

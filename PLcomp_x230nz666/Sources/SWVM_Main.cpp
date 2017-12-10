@@ -40,7 +40,6 @@ int wmain(int argc, wchar_t** argv)
     }
 
     // text format
-
     bool bRet = fil_coder.LoadFile(source_file, TRUE);
     if (!bRet)
     {

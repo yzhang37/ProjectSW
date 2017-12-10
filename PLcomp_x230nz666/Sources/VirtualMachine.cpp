@@ -170,7 +170,7 @@ void CVirutalMachineInterpreter::interpret(const CVirtualMachineInstruction *cod
                 rs.pop();
                 break;
 
-            case 13:/* 次栈顶项取模栈顶项 */
+            case 13: //odd function
                 rs[rs.get_top()] = rs.top() % 2 == 0 ? 0 : (__int64)-1;
                 break;
 
@@ -188,6 +188,9 @@ void CVirutalMachineInterpreter::interpret(const CVirtualMachineInstruction *cod
                 break;
             }
 
+            case 16: // not the top value
+                rs[rs.get_top()] = rs.top() != 0 ? 0 : (__int64)-1;
+                break;
             default:
                 // invalid instruction
                 exit(EXIT_FAILURE);
