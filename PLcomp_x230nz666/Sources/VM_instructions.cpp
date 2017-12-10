@@ -72,3 +72,74 @@ CVMInst_Read::CVMInst_Read()
     param_a = 15;
     param_b = 0;
 }
+
+CVMInst_MakeNegative::CVMInst_MakeNegative()
+{
+    inst = VI_OPERATION;
+    param_a = 1;
+    param_b = 0;
+}
+
+CVMInst_Plus::CVMInst_Plus()
+{
+    inst = VI_OPERATION;
+    param_a = 2;
+    param_b = 0;
+}
+
+CVMInst_Minus::CVMInst_Minus()
+{
+    inst = VI_OPERATION;
+    param_a = 3;
+    param_b = 0;
+}
+
+CVMInst_Times::CVMInst_Times()
+{
+    inst = VI_OPERATION;
+    param_a = 4;
+    param_b = 0;
+}
+
+CVMInst_Divide::CVMInst_Divide()
+{
+    inst = VI_OPERATION;
+    param_a = 5;
+    param_b = 0;
+}
+
+CVMInst_Module::CVMInst_Module()
+{
+    inst = VI_OPERATION;
+    param_a = 6;
+    param_b = 0;
+}
+
+CVMInst_Load::CVMInst_Load(const CVariableSymbol & sym)
+{
+    inst = VI_LOAD_INTEGER;
+    param_a = sym.GetLevel();
+    param_b = sym.GetOffset();
+}
+
+CVMInst_LoadRef::CVMInst_LoadRef(const CVariableSymbol & sym)
+{
+    inst = VI_LOAD_INTEGER_REF;
+    param_a = sym.GetLevel();
+    param_b = sym.GetOffset();
+}
+
+CVMInst_Store::CVMInst_Store(const CVariableSymbol & sym)
+{
+    inst = VI_STORE_INTEGER;
+    param_a = sym.GetLevel();
+    param_b = sym.GetOffset();
+}
+
+CVMInst_StoreRef::CVMInst_StoreRef(const CVariableSymbol & sym)
+{
+    inst = VI_STORE_INTEGER_REF;
+    param_a = sym.GetLevel();
+    param_b = sym.GetOffset();
+}
+

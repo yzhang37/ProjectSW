@@ -301,6 +301,7 @@ FactorSymSyntax::FactorSymSyntax()
 
 	m_setFollow.insert(times_op);
 	m_setFollow.insert(slash_op);
+    m_setFollow.insert(mod_op);
 	m_setFollow.insert(plus_op);
 	m_setFollow.insert(minus_op);
 	m_setFollow.insert(semicolon_op);

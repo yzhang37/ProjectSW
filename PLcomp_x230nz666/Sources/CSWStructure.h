@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "VirtualMachine.h"
 
 class CSWStructure
 {
@@ -28,12 +29,16 @@ public:
     // get the space
     size_t GetCurVariableSpace();
 
-    //
+    // Get current block level
     size_t GetCurLevel();
+
+    void PushStashCodes(std::vector<CVirtualMachineInstruction> & codeList);
+    void PopStashed(std::vector<CVirtualMachineInstruction> & codeList);
 
     // add a new level of the program structure
     void push(size_t table_base, size_t code_base);
     void pop();
 protected:
     std::vector<StructData> m_structData;
+    std::vector<CVirtualMachineInstruction> m_codeStashed;
 };

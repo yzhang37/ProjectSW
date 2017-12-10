@@ -53,6 +53,26 @@ CFunctionSymbol * CSymbolTable::GetLastFunction()
     return nullptr;
 }
 
+void CSymbolTable::EncapLastFuncParams()
+{
+    for (size_t i = m_tableData.size(); i > 0; --i)
+    {
+        if (m_tableData[i - 1]->GetAttribute() == SA_FUNCTION)
+        {
+            size_t params = ((CFunctionSymbol *)m_tableData[i - 1])->GetParams().size();
+            for (size_t j = i + 1; j < m_tableData.size(); ++j)
+            {
+                if (m_tableData[j - 1]->GetAttribute() == SA_VARIABLE &&
+                    ((CVariableSymbol *)m_tableData[i - 1])->GetStatus().isRef)
+                {
+                    ((CVariableSymbol *)m_tableData[i - 1])->_Offset() -= (int)params;
+                }
+            }
+            break;
+        }
+    }
+}
+
 void CSymbolTable::PruneTo(size_t level)
 {
     for (size_t i = m_tableData.size(); i > 0; --i)

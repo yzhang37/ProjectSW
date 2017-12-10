@@ -25,6 +25,24 @@ size_t CSWStructure::GetCurLevel()
     return m_structData.size() - 1;
 }
 
+void CSWStructure::PushStashCodes(std::vector<CVirtualMachineInstruction> & codeList)
+{
+    for (size_t i = GetCurCodeBase() + 1; i < codeList.size(); ++i)
+    {
+        m_codeStashed.push_back(codeList[i]);
+    }
+    codeList.resize(GetCurCodeBase() + 1);
+}
+
+void CSWStructure::PopStashed(std::vector<CVirtualMachineInstruction> & codeList)
+{
+    for (auto code : m_codeStashed)
+    {
+        codeList.push_back(code);
+    }
+    m_codeStashed.clear();
+}
+
 size_t CSWStructure::GetCurCodeBase()
 {
     return m_structData[m_structData.size() - 1].cBase;

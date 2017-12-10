@@ -94,10 +94,10 @@ void CallStatSym(CLexicalParser &lParser, CSymbolTable & sTable);
 void ConditionSym(CLexicalParser &lParser, CSymbolTable & sTable);
 
 // expression = ["+"|"-"] term { ("+"|"-") term}.
-void ExpressionSym(CLexicalParser &lParser, CSymbolTable & sTable, bool isConstant = false);
+void ExpressionSym(CLexicalParser &lParser, CSymbolTable & sTable, bool *isConst = nullptr, __int64* rValue = nullptr);
 
 // term = factor { ("*"|"/") factor}.
-void TermSym(CLexicalParser &lParser, CSymbolTable & sTable);
+void TermSym(CLexicalParser &lParser, CSymbolTable & sTable, bool *isConst = nullptr, __int64* rValue = nullptr);
 
 //factor = ident | number | "(" expression ")".
-void FactorSym(CLexicalParser &lParser, CSymbolTable & sTable);
+void FactorSym(CLexicalParser &lParser, CSymbolTable & sTable, bool *isConst = nullptr, __int64* rValue = nullptr);

@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "SymbolTable.h"
 
 enum VirtualInstruction
 {
@@ -63,6 +64,16 @@ struct CVirtualMachineInstruction
     __int64 param_b;
 };
 
+struct CVMInst_Load : CVirtualMachineInstruction { CVMInst_Load(const CVariableSymbol & sym); };
+struct CVMInst_Store : CVirtualMachineInstruction { CVMInst_Store(const CVariableSymbol & sym); };
+struct CVMInst_LoadRef : CVirtualMachineInstruction { CVMInst_LoadRef(const CVariableSymbol & sym); };
+struct CVMInst_StoreRef : CVirtualMachineInstruction { CVMInst_StoreRef(const CVariableSymbol & sym); };
 struct CVMInst_Return : CVirtualMachineInstruction { CVMInst_Return(); };
+struct CVMInst_MakeNegative : CVirtualMachineInstruction { CVMInst_MakeNegative(); };
+struct CVMInst_Plus :CVirtualMachineInstruction { CVMInst_Plus(); };
+struct CVMInst_Minus :CVirtualMachineInstruction { CVMInst_Minus(); };
+struct CVMInst_Times :CVirtualMachineInstruction { CVMInst_Times(); };
+struct CVMInst_Divide :CVirtualMachineInstruction { CVMInst_Divide(); };
+struct CVMInst_Module :CVirtualMachineInstruction { CVMInst_Module(); };
 struct CVMInst_Print : CVirtualMachineInstruction { CVMInst_Print(); };
 struct CVMInst_Read : CVirtualMachineInstruction { CVMInst_Read(); };
