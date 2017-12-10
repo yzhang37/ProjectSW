@@ -60,14 +60,9 @@ void CSymbolTable::EncapLastFuncParams()
         if (m_tableData[i - 1]->GetAttribute() == SA_FUNCTION)
         {
             size_t params = ((CFunctionSymbol *)m_tableData[i - 1])->GetParams().size();
-            for (size_t j = i + 1; j < m_tableData.size(); ++j)
-            {
-                if (m_tableData[j - 1]->GetAttribute() == SA_VARIABLE &&
-                    ((CVariableSymbol *)m_tableData[i - 1])->GetStatus().isRef)
-                {
-                    ((CVariableSymbol *)m_tableData[i - 1])->_Offset() -= (int)params;
-                }
-            }
+            for (size_t j = i + 1; j <= m_tableData.size(); ++j)
+                if (m_tableData[j - 1]->GetAttribute() == SA_VARIABLE)
+                    ((CVariableSymbol *)m_tableData[j - 1])->_Offset() -= (int)params;
             break;
         }
     }

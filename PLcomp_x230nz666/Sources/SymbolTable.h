@@ -29,7 +29,7 @@ protected:
 class CIdentSymbol : public CSimpleIdentSymbol
 {
 public:
-    CIdentSymbol() : m_Offset(0) {}
+    CIdentSymbol() : m_Offset(0) { m_dataStatus.isRef = false; }
 
     //properties:
     PropertyHelper(Offset, m_Offset, int)

@@ -46,7 +46,7 @@ void CVirutalMachineInterpreter::interpret(const CVirtualMachineInstruction *cod
 
         case VI_MAKE_REFERENCE:
         {
-            unsigned __int64 refWord = (unsigned __int64)((unsigned long)0);
+            unsigned __int64 refWord = (unsigned __int64)((unsigned long)instruction.param_a);
             refWord |= (unsigned __int64)((unsigned long)instruction.param_b) << 32;
             rs.push(refWord);
             break;
