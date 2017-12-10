@@ -157,3 +157,44 @@ CVMInst_StoreRef::CVMInst_StoreRef(const CVariableSymbol & sym)
     param_b = sym.GetOffset();
 }
 
+CVMInst_Equal::CVMInst_Equal()
+{
+    inst = VI_OPERATION;
+    param_a = 7;
+    param_b = 0;
+}
+
+CVMInst_NotEqual::CVMInst_NotEqual()
+{
+    inst = VI_OPERATION;
+    param_a = 8;
+    param_b = 0;
+}
+
+CVMInst_Less::CVMInst_Less()
+{
+    inst = VI_OPERATION;
+    param_a = 9;
+    param_b = 0;
+}
+
+CVMInst_LessEqual::CVMInst_LessEqual()
+{
+    inst = VI_OPERATION;
+    param_a = 10;
+    param_b = 0;
+}
+
+CVMInst_Greater::CVMInst_Greater()
+{
+    inst = VI_OPERATION;
+    param_a = 11;
+    param_b = 0;
+}
+
+CVMInst_GreaterEqual::CVMInst_GreaterEqual()
+{
+    inst = VI_OPERATION;
+    param_a = 12;
+    param_b = 0;
+}
