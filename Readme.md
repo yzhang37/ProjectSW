@@ -10,27 +10,39 @@ Description here.
 
 
 
-## Compiler Framework
+## Compiler Architectural
 
 ### Lexical Parser
 
-#### Summary
+#### File List
 
-| Field                        | Information          |
-| ---------------------------- | -------------------- |
-| Name                         | SW Lexical Parser    |
-| Source File Name             | `CLexicalParser.cpp` |
-| Header File Name (if exists) | `CLexicalParser.h`   |
-|                              |                      |
-|                              |                      |
+The following lists the source files related to the SW Lexical Parser Module.
+
+| Field            | Information          |
+| ---------------- | -------------------- |
+| Name             | SW Lexical Parser    |
+| Source File Name | `CLexicalParser.cpp` |
+| Header File Name | `CLexicalParser.h`   |
 
 #### Keywords and reserved words
 
-In SW language, an symbol can be keywords, variable names, or operators. Typically, when defining this language, it's not allowed to define a variable, a function with these reserved words. Here the definition of these words is given as the following:
+In SW language, an symbol can be keywords, variable names, or operators. Typically, when defining this language, it's not allowed to define a variable, a function with these reserved words. The definition of these words is given as the following:
+
+`break` `call` `const` `continue` `else` `for` `func` `if` `in` `odd` `print` `read` `ref` `repeat` `return` `step` `unless` `until` `var` `while`.
+
 
 ### Syntax Parser
 
-Description here.
+#### File List
+
+The following lists the source files related to the SW Syntax Parser Module.
+
+| Field            | Information                              | Description                              |
+| ---------------- | ---------------------------------------- | ---------------------------------------- |
+| Name             | SW Syntax Parser                         |                                          |
+| Source File Name | [CSyntaxParser.cpp](https://github.com/yzhang37/MyPCompiler/blob/master/PLcomp_x230nz666/Sources/CSyntaxParser.cpp) | Initialize the *FIRST* and *FOLLOW* sets information declared in `CSyntaxParser.h`. |
+| Header File Name | [CSyntaxParser.h](https://github.com/yzhang37/MyPCompiler/blob/master/PLcomp_x230nz666/Sources/CLexicalParser.h) | When syntax parsing, each subroutine needs the *FIRST* and *FOLLOW* sets of related procedures. In `CSyntaxParser.h` a series of classes is defined to store these sets information. |
+| Source File Name | [SW_x230nz666.cpp](https://github.com/yzhang37/MyPCompiler/blob/master/PLcomp_x230nz666/Sources/SW_x230nz666.cpp) | The **main** source file of the whole compiler, contains the main entrance `wmain` function and all the calling hierarchy. |
 
 #### EBNF Format Syntax Description:
 
@@ -94,7 +106,7 @@ print_stat = "print" "(" ident ")".
 
 assign_stat = ident ( "=" expression | "++" | "--" ).
 
-for_stat = "for" ident "in" (ident|number) "..." (ident|number) "{" statement_list "}".
+for_stat = "for" ident "in" expression "..." expression step expression "{" statement_list "}".
 
 call_stat = "call" ident "(" [ expression { "," expression }  ] ")".
 
@@ -138,7 +150,9 @@ Above, each the non-terminal symbols mean:
 | `term`                      |                                          |
 | `factor`                    |                                          |
 
-In order to make the compile using a LL(1), the FIRST characters and FOLLOW characters of each non-terminal symbols are giving in the following table.
+#### *FIRST* and *FOLLOW* sets table 
+
+In order to make this compiler using **LL(1)** design, the *FIRST* characters and *FOLLOW* characters of each non-terminal symbols are giving in the following table.
 
 | Non-terminal                | First                                    | Follow                                   |
 | --------------------------- | ---------------------------------------- | ---------------------------------------- |
@@ -164,13 +178,13 @@ In order to make the compile using a LL(1), the FIRST characters and FOLLOW char
 | `for_stat`                  | `for`                                    | `;`                                      |
 | `call_stat`                 | `call`                                   | `;`                                      |
 | `condition`                 | `IDENT` `NUMBER` `(` `+` `-` `odd`       | `{` `;`                                  |
-| `expression`                | `IDENT` `NUMBER` `(` `+` `-`             | `;` `,` `)`                              |
-| `term`                      | `IDENT` `NUMBER` `(`                     | `+` `-` `;` `,` `)`                      |
-| `factor`                    | `IDENT` `NUMBER` `(`                     | `*` `/` `+` `-` `;` `,` `)`              |
+| `expression`                | `IDENT` `NUMBER` `(` `+` `-`             | `;` `,` `)` `step`                       |
+| `term`                      | `IDENT` `NUMBER` `(`                     | `+` `-` `;` `,` `)` `step`               |
+| `factor`                    | `IDENT` `NUMBER` `(`                     | `*` `/` `+` `-` `;` `,` `) ` `step`      |
 
+For the convenience of syntax parsing, all these sets are predefined in [CSyntaxParser.cpp](https://github.com/yzhang37/MyPCompiler/blob/master/PLcomp_x230nz666/Sources/CSyntaxParser.cpp).
 
-
-### The structure of Symbol Tables
+### Symbol Tables
 
 | Symbol Identifier | Attribute | Data Type | Level |
 | ----------------- | --------- | --------- | ----- |
@@ -200,6 +214,8 @@ func sin(ref y, x)
 |标识符|标识符类型|c|d|e|
 
 
+## Virtual Machine Architectural ![SW_VirtualMachine](./res/SW_VirtualMachine.png)
+Here defines the design of the SW virtual machine.
 
 ### Virtual Machines Instructions
 

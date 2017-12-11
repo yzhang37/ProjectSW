@@ -278,6 +278,7 @@ ExpressionSymSyntax::ExpressionSymSyntax()
 	m_setFollow.insert(semicolon_op);
 	m_setFollow.insert(comma_op);
 	m_setFollow.insert(rparen_op);
+    m_setFollow.insert(step_sym);
 }
 
 TermSymSyntax::TermSymSyntax()
@@ -291,6 +292,7 @@ TermSymSyntax::TermSymSyntax()
 	m_setFollow.insert(semicolon_op);
 	m_setFollow.insert(comma_op);
 	m_setFollow.insert(rparen_op);
+    m_setFollow.insert(step_sym);
 }
 
 FactorSymSyntax::FactorSymSyntax()
@@ -307,4 +309,5 @@ FactorSymSyntax::FactorSymSyntax()
 	m_setFollow.insert(semicolon_op);
 	m_setFollow.insert(comma_op);
 	m_setFollow.insert(rparen_op);
+    m_setFollow.insert(step_sym);
 }
