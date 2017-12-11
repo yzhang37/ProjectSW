@@ -1,19 +1,12 @@
 #pragma once
-#include <map>
-
-
-
-//
-
+#include "stdafx.h"
+#include "error_messages.h"
 
 class CErrorDetails
 {
 public:
-	CErrorDetails();
-	~CErrorDetails();
-// public member functions
-public:
-	virtual void GetErrorMessage() = 0;
+    CErrorDetails();
+	std::wstring GetErrorMessage(size_t err_code);
 protected:
 	std::map<int, std::wstring> m_mapDetails;
 };

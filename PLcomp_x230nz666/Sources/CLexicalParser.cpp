@@ -3,10 +3,13 @@
 #pragma warning(disable:4101)
 #define isAlphabet(__wchar) (towlower(__wchar) >= L'a' && towlower(__wchar) <= L'z')
 #define isNumeric(__wchar) ((__wchar) >= L'0' && (__wchar) <= L'9')
-#define isWhiteless(__wchar) ((__wchar) == L' ' || (__wchar) == L'\n' || (__wchar) == L'\r')
+#define isWhiteless(__wchar) ((__wchar) == L' ' || (__wchar) == L'\n' || (__wchar) == L'\r' || (__wchar) == L'\t') 
+#define isLineFeed(__wchar) ((__wchar) == L'\n')
 
 CLexicalParser::CLexicalParser(std::wistream *wsIn)
 {
+    textcur.reset();
+
 	m_msSym[L'+'] = plus_op;
 	m_msSym[L'-'] = minus_op;
 	m_msSym[L'*'] = times_op;
@@ -52,8 +55,11 @@ bool CLexicalParser::Next()
 	resetvalues();
 	try
 	{
-		while (isWhiteless(m_curCh))
-			getnextc();
+        while (isWhiteless(m_curCh))
+        {
+            getnextc();
+        }
+			
 	}
 	catch (EofException &e)
 	{
@@ -535,6 +541,16 @@ const wchar_t * CLexicalParser::GetSymbol() const
 	return m_wstrCurSymbol.c_str();
 }
 
+size_t CLexicalParser::GetCurrentLineNo() const
+{
+    return textcur.line;
+}
+
+size_t CLexicalParser::GetCurrentColumnNo() const
+{
+    return textcur.col;
+}
+
 void CLexicalParser::insertKeyWords(const std::wstring &word, SymbolType symb)
 {
 	m_setReserved.insert(word);
@@ -561,5 +577,30 @@ void CLexicalParser::getnextc()
 		throw EofException();
 	if (m_isInput->bad() || m_isInput->fail())
 		throw StreamFailedException();
+    if (isLineFeed(m_curCh))
+        textcur.feed();
+    else
+        textcur.append(1);
 }
 
+CLexicalParser::TextCursor::TextCursor()
+{
+    reset();
+}
+
+void CLexicalParser::TextCursor::append(size_t num)
+{
+    col += num;
+}
+
+void CLexicalParser::TextCursor::feed()
+{
+    col = 1;
+    line += 1;
+}
+
+inline void CLexicalParser::TextCursor::reset()
+{
+    line = 1;
+    col = 0;
+}
