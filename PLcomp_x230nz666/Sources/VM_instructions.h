@@ -7,13 +7,13 @@ enum VirtualInstruction
     // nop 0, 0
     VI_NOP,
 
-    // liti <constant>, 0
+    // liti 0, literal
     VI_LIT_INTEGER,
 
     // lodi <level>, <offset>
     VI_LOAD_INTEGER,
 
-    // lori <level = 1>, <offset>
+    // lori <level>, <offset>
     VI_LOAD_INTEGER_REF,
 
     // mkri
