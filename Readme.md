@@ -26,6 +26,43 @@ In SW language, an symbol can be keywords, variable names, or operators. Typical
 
 `break` `call` `const` `continue` `else` `for` `func` `if` `in` `odd` `print` `read` `ref` `repeat` `return` `step` `unless` `until` `var` `while`.
 
+#### Comments
+
+SW language support the following kinds of comment
+
+* Line comments
+
+  Line comments starts with a # symbol, as the follows:
+
+  ```shell
+  # define the max times to procedure
+  const MAX_COUNT = 100;
+  ```
+
+  Line comments can also starts with two slash, as the follows:
+
+  ```C++
+  if x < 0 {
+    y = -x; // when x < 0, its abs value > 0.
+  } else {
+    y = x; // nothing needed to do.
+  }
+  ```
+
+* Block comments
+
+  SW language support C/C++ style block comments
+
+  ```swift
+  var x = 10; /* declare x with 10. */
+  func f(y) { print(y); } 
+  /* don't print(x) before read it */read(x); 
+  call f(x+/*haha*/x);
+
+  ```
+
+  When Lexical Parser encounters a **EOF** (`end of file`) , but it still get into a *Block Comments* without reading any `/*` tag, an error "comment unclosed at end of file." happened.
+
 
 ### Syntax Parser
 

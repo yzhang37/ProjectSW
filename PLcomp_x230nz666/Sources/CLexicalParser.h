@@ -31,7 +31,7 @@ public:
 	const wchar_t * GetSymbol() const;
     size_t GetCurrentLineNo() const;
     size_t GetCurrentColumnNo() const;
-private:
+protected:
 	wchar_t m_curCh;
 
 	SymbolType m_curSymbolType;
@@ -44,11 +44,14 @@ private:
 	std::map <std::wstring, SymbolType> m_mwSym;
 	std::wistream *m_isInput;
     TextCursor textcur;
+
+    bool m_bInLineComment;
+    bool m_bInBlockComment;
 	// helpers
 private:
 	inline void insertKeyWords(const std::wstring &, SymbolType);
 	void _makeError();
 	inline void resetvalues();
-	inline void getnextc();
+	void getnextc();
+    void __getnext();
 };
-

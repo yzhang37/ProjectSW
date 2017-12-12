@@ -9,6 +9,8 @@
 CLexicalParser::CLexicalParser(std::wistream *wsIn)
 {
     textcur.reset();
+    m_bInBlockComment = false;
+    m_bInLineComment = false;
 
 	m_msSym[L'+'] = plus_op;
 	m_msSym[L'-'] = minus_op;
@@ -55,11 +57,16 @@ bool CLexicalParser::Next()
 	resetvalues();
 	try
 	{
+        // the first thing to handle is, to check comment status
+        // if existes, then try to escape it, or come with an EOF
+        while (m_bInLineComment && !isLineFeed(m_curCh))
+        {
+            getnextc();
+        }
         while (isWhiteless(m_curCh))
         {
             getnextc();
         }
-			
 	}
 	catch (EofException &e)
 	{
@@ -572,11 +579,75 @@ void CLexicalParser::resetvalues()
 
 void CLexicalParser::getnextc()
 {
-	m_isInput->get(m_curCh);
-	if (m_isInput->eof())
-		throw EofException();
-	if (m_isInput->bad() || m_isInput->fail())
-		throw StreamFailedException();
+getnext_start:
+    __getnext();
+
+    if (m_curCh == L'#')
+        m_bInLineComment = true;
+    else if (m_curCh == L'/')
+    {
+        try
+        {
+            __getnext();
+            if (m_curCh == L'/')
+                m_bInLineComment = true;
+            else if (m_curCh == L'*')
+                m_bInBlockComment = true;
+            else
+            {
+                m_isInput->putback(m_curCh);
+                m_curCh = L'/';
+            }
+        }
+        catch (EofException e) {}
+    }
+
+    while (m_bInLineComment)
+    {
+        try
+        {
+            __getnext();
+            if (isLineFeed(m_curCh))
+            {
+                m_bInBlockComment = m_bInLineComment = false;
+                goto getnext_start;
+            }
+        }
+        catch (EofException e) {
+            throw e;
+        }
+    }
+     
+    while (m_bInBlockComment)
+    {
+        try
+        {
+            __getnext();
+            while (m_curCh == L'*')
+            {
+                __getnext();
+                if (m_curCh == L'/')
+                {
+                    m_bInBlockComment = m_bInLineComment = false;
+                    goto getnext_start;
+                }
+            }
+        }
+        catch (EofException e)
+        {
+            printf("comment unclosed at end of file.\n");
+            throw e;
+        }
+    }
+}
+
+void CLexicalParser::__getnext()
+{
+    m_isInput->get(m_curCh);
+    if (m_isInput->eof())
+        throw EofException();
+    if (m_isInput->bad() || m_isInput->fail())
+        throw StreamFailedException();
     if (isLineFeed(m_curCh))
         textcur.feed();
     else
