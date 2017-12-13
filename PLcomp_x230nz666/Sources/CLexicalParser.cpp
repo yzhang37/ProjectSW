@@ -405,11 +405,23 @@ bool CLexicalParser::Next()
 	m_wstrCurSymbol.push_back(m_curCh);
 	switch (m_curCh)
 	{
-	case L';': //语句结束符号，后面可以直接跟任何字符
+	case L';':
 		m_curSymbolType = semicolon_op;
 		break;
-	case L'=': //赋值或者等于符号，后面可以直接跟任何字符
+	case L'=':
 		m_curSymbolType = eql_op;
+        try
+        {
+            getnextc();
+            if (m_curCh == L'=')
+                m_curSymbolType = dbleql_op;
+            else
+            {
+                m_isInput->putback(m_curCh);
+                m_curCh = L'=';
+            }
+        }
+        catch (EofException e) {}
 		break;
 	case L',':
 		m_curSymbolType = comma_op;

@@ -31,6 +31,7 @@ CErrorDetails::CErrorDetails()
     m_mapDetails[IDS_ERROR_SYNTAX_CONDITION_MISSREL] = L"expect a relation operation";
     m_mapDetails[IDS_ERROR_SYNTAX_EXPRESSION_UNEXPECTED] = L"invalid expression.";
     m_mapDetails[IDS_ERROR_SYNTAX_REPEAT_NOWHILEUNTIL] = L"expect a 'while' or 'until' keyword.";
+    m_mapDetails[IDS_ERROR_SYNTAX_ASSIGNMENT_NOEQL] = L"missing a '=' symbol after the variable symbol.";
 
     m_mapDetails[IDS_ERROR_SYNTAX_DECLARATION_NAMEREPEAT] = L"symbol redefinition.";
     m_mapDetails[IDS_ERROR_SYNTAX_DECLARATION_REF_NOFUNCTION] = L"";
@@ -47,12 +48,15 @@ CErrorDetails::CErrorDetails()
     m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_CONTINUE_NOLOOP] = L"a continue statement may only be used within a loop";
     m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_BREAK_NOLOOP] = L"a break statement may only be used within a loop";
     m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_CALL_NOCALL] = L"'call' keyword should comes before function name.";
+
+    m_mapDetails[IDS_WARNING_SYNTAX_ASSIGNMENT_DBLEQUAL] = L"'==': operator means equal; did you intend '=' to assign a value?";
+    m_mapDetails[IDS_WARNING_SYNTAX_CONSTANT_DBLEQUAL] = L"'==': operator means equal; did you intend '=' to initialize the constant?";
 }
 
 std::wstring CErrorDetails::GetErrorMessage(size_t err_code)
 {
-    if (m_mapDetails.count(err_code) > 0)
-        return m_mapDetails[err_code];
+    if (m_mapDetails.count((int)err_code) > 0)
+        return m_mapDetails[(int)err_code];
     else
     {
         wchar_t buff[16];

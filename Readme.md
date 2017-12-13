@@ -6,6 +6,31 @@
 
 :-) *Under construction here. When Lacus X230 NZ666 has finished these, they will be posted here.* 
 
+### Statements
+
+### Assignment Statements
+
+
+
+*Notes*: if you mistype `=` as a double equal symbols `==`, like these:
+
+```Swift
+var a = 3;  //OK
+var b == 5; //OK, but get an warning
+a = 5;
+b == 5;     //OK, but get an warning
+```
+
+SW compiler will automatically translate the statement, with the `==` operator changed to `=`.
+
+#### Condition Statements
+
+
+
+#### Loop Statements
+
+
+
 ## Compiler Architectural
 
 ### Lexical Parser
