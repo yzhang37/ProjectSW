@@ -180,6 +180,10 @@
   <ItemGroup>
     <ResourceCompile Include="..\Resources\sw_resource.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\res\build.ico" />
+    <Image Include="..\Resources\icon1.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
