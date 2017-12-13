@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CLexicalParser.h"
 #pragma warning(disable:4101)
+#define isNull(__wchar) ((__wchar) == L'\0')
 #define isAlphabet(__wchar) (towlower(__wchar) >= L'a' && towlower(__wchar) <= L'z')
 #define isNumeric(__wchar) ((__wchar) >= L'0' && (__wchar) <= L'9')
 #define isWhiteless(__wchar) ((__wchar) == L' ' || (__wchar) == L'\n' || (__wchar) == L'\r' || (__wchar) == L'\t') 
@@ -28,6 +29,8 @@ int CLexicalParser::__replace(std::wstring& strContent, const std::wstring& strR
 CLexicalParser::CLexicalParser(std::wistream *wsIn)
 {
     textcur.reset();
+    lastTextCur.reset();
+    lastTextCur.col = 1;
     m_bInBlockComment = false;
     m_bInLineComment = false;
 
@@ -45,7 +48,7 @@ CLexicalParser::CLexicalParser(std::wistream *wsIn)
 	m_msSym[L';'] = semicolon_op;
 	m_msSym[L':'] = colon_op;
 	m_msSym[L'.'] = period_op;
-	m_curCh = L' ';
+	m_curCh = L'\0';
 	//add all the keywords
 	insertKeyWords(L"break", break_sym);
 	insertKeyWords(L"call", call_sym);
@@ -72,12 +75,17 @@ CLexicalParser::CLexicalParser(std::wistream *wsIn)
 
 bool CLexicalParser::Next()
 {
-	//执行前先初始化一下当前的内容
 	resetvalues();
+    if (isNull(m_curCh)) 
+    {
+        try { getnextc(); }
+        catch (EofException &e) { return false; }
+    }
 	try
 	{
         // the first thing to handle is, to check comment status
         // if existes, then try to escape it, or come with an EOF
+        bool handled = false;
         while (m_bInLineComment && !isLineFeed(m_curCh))
         {
             getnextc();
@@ -85,7 +93,11 @@ bool CLexicalParser::Next()
         while (isWhiteless(m_curCh))
         {
             getnextc();
+            handled = true;
         }
+        if (handled)
+            putbackCur(m_curCh);
+        lastTextCur = textcur;
 	}
 	catch (EofException &e)
 	{
@@ -109,7 +121,7 @@ bool CLexicalParser::Next()
 
 		if (m_setReserved.count(m_wstrCurSymbol) > 0)
 		{
-			//m_isInput->putback(m_curCh);
+			//putbackCh(m_curCh);
 			m_curSymbolType = m_mwSym[m_wstrCurSymbol];
 			return true;
 		}
@@ -132,7 +144,7 @@ bool CLexicalParser::Next()
 			catch (EofException &e) {}
 			//TODO: Other error?
 
-			//m_isInput->putback(m_curCh);
+			//putbackCh(m_curCh);
 			m_curSymbolType = ident;
 			return true;
 		}
@@ -166,7 +178,7 @@ bool CLexicalParser::Next()
 						{
 							getnextc();
 							wchar_t tempC = m_curCh;
-							m_isInput->putback(tempC);
+							putbackCh(tempC);
 							m_curCh = L'.';
 							if (tempC == L'.')
 							{
@@ -178,7 +190,7 @@ bool CLexicalParser::Next()
 						catch (EofException &e) {}
 
 						if (towlower(m_curCh) == L'e')
-							m_isInput->putback(m_curCh);
+							putbackCh(m_curCh);
 						else
 							m_wstrCurSymbol.push_back(m_curCh);
 						isInteger = false;
@@ -188,7 +200,7 @@ bool CLexicalParser::Next()
 						//TODO: Error
 						return false;
 					}
-					//m_isInput->putback(m_curCh);
+					//putbackCh(m_curCh);
 				}
 				catch (EofException &e) {}
 				//TODO: Other error handler?
@@ -229,7 +241,7 @@ bool CLexicalParser::Next()
 						{
 							getnextc();
 							wchar_t tempC = m_curCh;
-							m_isInput->putback(tempC);
+							putbackCh(tempC);
 							m_curCh = L'.';
 							if (tempC == L'.')
 							{
@@ -241,7 +253,7 @@ bool CLexicalParser::Next()
 						catch (EofException &e) {}
 
 						if (towlower(m_curCh) == L'e')
-							m_isInput->putback(m_curCh);
+							putbackCh(m_curCh);
 						else
 							m_wstrCurSymbol.push_back(m_curCh);
 						decvalue = double(intvalue);
@@ -254,7 +266,7 @@ bool CLexicalParser::Next()
 					}
 					else //遇到别的符号
 					{
-						//m_isInput->putback(m_curCh);
+						//putbackCh(m_curCh);
 						m_curSymbolType = int_val;
 						m_curSymbolInt = intvalue;
 						return true;
@@ -319,7 +331,7 @@ bool CLexicalParser::Next()
 			}
 			else
 			{
-				m_isInput->putback(m_curCh);
+				putbackCh(m_curCh);
 			}
 		}
 
@@ -369,7 +381,7 @@ bool CLexicalParser::Next()
 					sign = -1;
 				}
 				else
-					m_isInput->putback(m_curCh);
+					putbackCh(m_curCh);
 
 				getnextc();
 				while (isNumeric(m_curCh))
@@ -410,7 +422,7 @@ bool CLexicalParser::Next()
 				return false;
 			}
 
-			//m_isInput->putback(m_curCh);
+			//putbackCh(m_curCh);
 			m_curSymbolType = dec_val;
 			m_curSymbolDec = decvalue;
 			return true;
@@ -436,7 +448,7 @@ bool CLexicalParser::Next()
                 m_curSymbolType = dbleql_op;
             else
             {
-                m_isInput->putback(m_curCh);
+                putbackCh(m_curCh);
                 m_curCh = L'=';
             }
         }
@@ -503,7 +515,7 @@ bool CLexicalParser::Next()
 				return true;
 			}
 			else
-				m_isInput->putback(m_curCh);
+				putbackCh(m_curCh);
 		}
 		catch (EofException &e) {}
 		if (wcBegin == L'+')
@@ -587,12 +599,12 @@ const wchar_t * CLexicalParser::GetSymbol() const
 
 size_t CLexicalParser::GetCurrentLineNo() const
 {
-    return textcur.line;
+    return lastTextCur.line;
 }
 
 size_t CLexicalParser::GetCurrentColumnNo() const
 {
-    return textcur.col;
+    return lastTextCur.col;
 }
 
 void CLexicalParser::insertKeyWords(const std::wstring &word, SymbolType symb)
@@ -632,7 +644,7 @@ getnext_start:
                 m_bInBlockComment = true;
             else
             {
-                m_isInput->putback(m_curCh);
+                putbackCh(m_curCh);
                 m_curCh = L'/';
             }
         }
@@ -678,6 +690,20 @@ getnext_start:
     }
 }
 
+void CLexicalParser::putbackCh(wchar_t ch)
+{
+    m_isInput->putback(ch);
+    putbackCur(ch);
+}
+
+void CLexicalParser::putbackCur(wchar_t ch)
+{
+    if (isLineFeed(ch))
+        textcur.col = textcur.lastCol;
+    else
+        textcur.append(-1);
+}
+
 void CLexicalParser::__getnext()
 {
     m_isInput->get(m_curCh);
@@ -703,6 +729,7 @@ void CLexicalParser::TextCursor::append(size_t num)
 
 void CLexicalParser::TextCursor::feed()
 {
+    lastCol = col;
     col = 1;
     line += 1;
 }
@@ -711,4 +738,5 @@ inline void CLexicalParser::TextCursor::reset()
 {
     line = 1;
     col = 0;
+    lastCol = 1;
 }

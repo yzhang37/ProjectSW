@@ -21,8 +21,8 @@ CErrorDetails::CErrorDetails()
     m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_NOENDSEMICOLON] = L"missing a ';' after the statement.";
     m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_NOLBRACE] = L"missing a '{' before a series of statements.";
     m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_NORBRACE] = L"missing a '}' after a series of statements.";
-    m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_NOLPAREN] = L"excepted a '(' after the function caller.";
-    m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_NORPAREN] = L"excepted a ')' at the end of the function caller.";
+    m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_NOLPAREN] = L"excepted a '('.";
+    m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_NORPAREN] = L"excepted a ')'.";
     m_mapDetails[IDS_ERROR_SYNTAX_STATEMENT_MISSIDENT] = L"excepted an symbol identifer.";
     m_mapDetails[IDS_ERROR_SYNTAX_ASSIGN_UNEXPECTED] = L"invalid assignment statement.";
     m_mapDetails[IDS_ERROR_SYNTAX_FOR_MISSIN] = L"expect an 'in' keyword in for loop statement.";

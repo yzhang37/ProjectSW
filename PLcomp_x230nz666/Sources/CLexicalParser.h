@@ -19,6 +19,7 @@ protected:
         inline void reset();
         size_t line;
         size_t col;
+        size_t lastCol;
     };
 public:
     CLexicalParser(std::wistream *);
@@ -45,6 +46,7 @@ protected:
 	std::map <std::wstring, SymbolType> m_mwSym;
 	std::wistream *m_isInput;
     TextCursor textcur;
+    TextCursor lastTextCur;
 
     bool m_bInLineComment;
     bool m_bInBlockComment;
@@ -55,5 +57,7 @@ private:
 	void _makeError();
 	inline void resetvalues();
 	void getnextc();
+    void putbackCh(wchar_t);
+    void putbackCur(wchar_t);
     void __getnext();
 };
