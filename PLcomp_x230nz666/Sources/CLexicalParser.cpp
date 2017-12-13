@@ -6,6 +6,25 @@
 #define isWhiteless(__wchar) ((__wchar) == L' ' || (__wchar) == L'\n' || (__wchar) == L'\r' || (__wchar) == L'\t') 
 #define isLineFeed(__wchar) ((__wchar) == L'\n')
 
+int CLexicalParser::__replace(std::wstring& strContent, const std::wstring& strReplace, const std::wstring & strDest) const
+{
+    while (true)
+    {
+        size_t pos = strContent.find(strReplace);
+        if (pos != std::wstring::npos)
+        {
+            wchar_t pBuf[1] = { L'\0' };
+            strContent.replace(pos, strReplace.length(), pBuf, 0);
+            strContent.insert(pos, strDest);
+        }
+        else
+        {
+            break;
+        }
+    }
+    return 0;
+}
+
 CLexicalParser::CLexicalParser(std::wistream *wsIn)
 {
     textcur.reset();
@@ -538,6 +557,12 @@ bool CLexicalParser::Next()
 	try { getnextc(); }
 	catch (EofException &e) {}
 	return true;
+}
+
+bool CLexicalParser::MakeErrorMessageInfo(std::wstring & msg) const
+{
+    __replace(msg, L"<symb>", m_wstrCurSymbol);
+    return false;
 }
 
 const SymbolType CLexicalParser::GetSymbolType() const

@@ -21,8 +21,9 @@ protected:
         size_t col;
     };
 public:
-	CLexicalParser(std::wistream *);
+    CLexicalParser(std::wistream *);
 	bool Next();
+    bool MakeErrorMessageInfo(std::wstring& strErrorMessage) const;
 	// properties:
 public:
 	const SymbolType GetSymbolType() const;
@@ -49,6 +50,7 @@ protected:
     bool m_bInBlockComment;
 	// helpers
 private:
+    int __replace(std::wstring & strContent, const std::wstring & strReplace, const std::wstring & strDest) const;
 	inline void insertKeyWords(const std::wstring &, SymbolType);
 	void _makeError();
 	inline void resetvalues();
